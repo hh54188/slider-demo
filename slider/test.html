@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="js/basic/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
+    <script type="text/javascript" src="js/basic/underscore-min.js"></script>
+    <script type="text/javascript" src="js/basic/backbone-min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            window.ConfigModel = Backbone.Model.extend({
+                defaults: {
+                    'enable':0
+                },
+                initialize: function(){
+                    // this.bind("change:enable", function () {
+                    //     console.log('changed!');
+                    //     var portView2 = new PortView();
+                    //     portView2.viewOff();                        
+                    // });
+                },
+                change:function () {
+                     console.log('changed!');
+                    this.set('enable', 9);
+                }
+             })
+
+            window.PortView = Backbone.View.extend({
+                viewOn: function () {
+                    $(document).on('mousemove', function () {
+                        console.log('move')
+                    })
+                },
+                viewOff: function () {
+                    console.log('off');
+                    $(document).off('mousemove');
+                }
+            })
+
+            var portView1 = new PortView();
+            portView1.viewOn();
+
+            $('input').click(function () {
+                var configModel = new ConfigModel();
+                configModel.change();
+            })
+        })
+    </script>
+</head>
+<body>
+    <input type="button" value="stop">
+</body>
+</html>
