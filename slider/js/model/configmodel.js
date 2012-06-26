@@ -1,4 +1,5 @@
-window.ConfigModel = Backbone.Model.extend({
+window.app = window.app || {};
+window.app.ConfigModel = Backbone.Model.extend({
     defaults: {
         'scene': 'view',
  	    'enableThumb': 0,
@@ -14,40 +15,24 @@ window.ConfigModel = Backbone.Model.extend({
     
     initialize: function(){
         this.bind("change:index", function () {
-            var sliderView = new SliderView();
-            sliderView.turnCurIndex(this.get('index'), this.get('total'));
+            app.sliderView.turnCurIndex(this.get('index'), this.get('total'));
         });
 
         this.bind("change:enableThumb", function () {
             if (this.get('enableThumb') == 0 ) {
-                var portView = new PortView();
-                var sliderView = new SliderView();
-                sliderView.hideControl();
-        	    portView.resetThumb();
+                app.sliderView.hideControl();
+        	    app.portView.resetThumb();
             } else if (this.get('enableThumb') ==1 ) {
-        	    var portView = new PortView();
-                var sliderView = new SliderView();
-                sliderView.showControl();
-        	    portView.basicThumb();
-                portView.portView3dOff();
+                app.sliderView.showControl();
+        	    app.portView.basicThumb();
+                app.portView.portView3dOff();
             }
         });
      },
      distribute: function (ecode) {
-         // if (ecode == 49) {
-         //     var portView = new PortView();
-         //     portView.portViewRemoteOn();
-         //     portView.portView3dOff();
-
-         //     var menuView = new MenuView();
-         //     menuView.showMenu();
-         //     return false;
-         // }
-
          var scene = this.get('scene');
          if (scene == "view") {
-             var pageModel = new PageModel();
-             pageModel.distribute(ecode);
+             app.pageModel.distribute(ecode);
          }
      },
      toggleThumb: function () {
@@ -59,9 +44,9 @@ window.ConfigModel = Backbone.Model.extend({
      },
      isThumb: function () {
          if (this.get('enableThumb') == 0) {
- 	     return false;
- 	 } else {
- 	     return true;
+ 	         return false;
+ 	     } else {
+ 	         return true;
          }
      },
      nextIndex: function () {
@@ -70,5 +55,5 @@ window.ConfigModel = Backbone.Model.extend({
      prevIndex: function () {
         this.set('index', this.get('index') - 1)
      }
-
  })
+app.configModel = new app.ConfigModel;

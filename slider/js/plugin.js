@@ -1,24 +1,20 @@
 $(function () {
 	$('#slider-control').slider({
-		'step': parseInt(100 / (configModel.getTotalPage() - 1)),
+		'step': parseInt(100 / (app.configModel.getTotalPage() - 1)),
 		'slide': function (e, ui) {//ui.value
-			var step = parseInt(100 / (configModel.getTotalPage() - 1));
+			var step = parseInt(100 / (app.configModel.getTotalPage() - 1));
 			var nextIndex = ui.value / step + 1;
-			var curIndex = configModel.getCurPage();
-			var pageView = new PageView();
-			
-			console.log('curIndex', curIndex);
-			console.log('nextIndex', nextIndex);
+			var curIndex = app.configModel.getCurPage();
 
 			if (nextIndex > curIndex) {
-				if (nextIndex > configModel.getTotalPage()) {
-					ui.value = configModel.getTotalPage();
+				if (nextIndex > app.configModel.getTotalPage()) {
+					ui.value = app.configModel.getTotalPage();
 				}
-				configModel.nextIndex();
-	 			pageView.flipForward(); 
+				app.configModel.nextIndex();
+	 			app.pageView.flipForward(); 
 			} else if (nextIndex < curIndex) {
- 				configModel.prevIndex();
- 				pageView.flipBack();
+ 				app.configModel.prevIndex();
+ 				app.pageView.flipBack();
 			}
 		}
 	});

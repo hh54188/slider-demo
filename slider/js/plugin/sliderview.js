@@ -1,4 +1,5 @@
-window.SliderView = Backbone.View.extend({
+window.app = window.app || {};
+window.app.SliderView = Backbone.View.extend({
     turnCurIndex: function (index, total) {
         var step = parseInt(100 / (total - 1));
         $('#slider-control').slider( "value" , (index - 1) * step );
@@ -10,3 +11,4 @@ window.SliderView = Backbone.View.extend({
 		$('#slider-control').css('opacity', 0);
     }
 })
+app.sliderView = new app.SliderView;

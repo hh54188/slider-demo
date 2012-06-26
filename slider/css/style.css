@@ -3,21 +3,7 @@ html{
     overflow: hidden;
 }
 body{
-    /*background:  -webkit-radial-gradient(50% 50%, circle cover, rgba(0, 0, 0, 0.7), rgba(35, 35, 35, 1) 60%);*/
-    /*background:rgba(35,35,35,1);*/
-/*    -webkit-transition:all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 1s;
-    -webkit-perspective: 1000px;
-    -moz-perspective: 1000px;*/
-}
-.body-normal{
-    background:  -webkit-radial-gradient(50% 50%, circle cover, rgba(0, 0, 0, 0.7), rgba(35, 35, 35, 1) 60%);
-}
-h1{
-    text-align: center;
-    color: #ffffff;
-    font-size: 56px;
-    margin-top: 100px;
-    text-shadow:0 1px 0 #CCC, 0 2px 0 #C9C9C9, 0 3px 0 #BBB, 0 4px 0 #B9B9B9, 0 5px 0 #AAA, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 20px 20px rgba(0, 0, 0, .15);
+
 }
 .mini-menu{
     width:300px;
@@ -154,22 +140,23 @@ section{
     outline:none;
 }
 .flex-box-container{
-    height:330px;
-    margin: 20px 0px;
+    height:100%;
+    padding: 30px 0px;
+    margin-top:10%;
+    -webkit-transform-style: preserve-3d;
 }
 .flex-box{
     display: -webkit-box;
     -webkit-box-align: center;
     -webkit-box-orient: vertical;
-    /*-moz-perspective: 3000px;*/
 }
-.flex-box p{
+/*.flex-box p{
     margin:10px 0 ;
     -webkit-box-flex:1;
     border:1px solid white;
     padding:5px;
     color: white;
-}
+}*/
 .flex-box em{
     padding:5px;
     display: block;

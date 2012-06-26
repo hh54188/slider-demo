@@ -1,4 +1,5 @@
-window.PortView = Backbone.View.extend({
+window.app = window.app || {};
+window.app.PortView = Backbone.View.extend({
     basicThumb: function () {
         var past = $('.past');
         var future = $('.future');
@@ -76,12 +77,13 @@ window.PortView = Backbone.View.extend({
         })
     },
     portView3dOff: function () {
-        $(document).off('mousemove');
+        console.log('3d off');
+        $(document).unbind('mousemove');
     },
     randomRotateOn: function () {
         var _this = this;
-        var startDeg = -10;
-        var endDeg = 10;
+        var startDeg = -20;
+        var endDeg = 20;
         var curDeg = startDeg;
         var gap = 0.5;
         var flag = 0;
@@ -98,13 +100,13 @@ window.PortView = Backbone.View.extend({
                 if (curDeg < startDeg) flag = 0;
                 _this._rotatePortview(curDeg, 0);                                 
             }            
-        }, 100);
+        }, 10);
     },
     randomRotateOff: function () {
         clearInterval(window.rotateTimer);
     },
     _rotatePortview: function (x, y) {
-        if (configModel.isThumb() == true) {
+        if (app.configModel.isThumb() == true) {
             $('.slider-container')[0].style.WebkitTransform = 'rotateY(' + x + 'deg) rotateX(' + y + 'deg) translate(0%, 27%) translateZ(-250px)';   
         } else {
             $('.slider-container')[0].style.WebkitTransform = 'rotateY(' + x + 'deg) rotateX(' + y + 'deg)' ;       
@@ -116,5 +118,5 @@ window.PortView = Backbone.View.extend({
     portViewRemoteOff: function () {
          $('.slider-container')[0].style.WebkitTransform = 'translateZ(0px)'; 
     }
-
 })
+app.portView = new app.PortView;

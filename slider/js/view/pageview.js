@@ -1,4 +1,5 @@
-window.PageView = Backbone.View.extend({
+window.app = window.app || {};
+window.app.PageView = Backbone.View.extend({
 	flipForward:function () {
     	var present = $('.present');
         var next = present.next();
@@ -8,9 +9,8 @@ window.PageView = Backbone.View.extend({
             present.removeClass('present').addClass('past');
             next.removeClass('future').addClass('present');
         }
-        if (configModel.isThumb() == 1) {
-        	var portView = new PortView();
-        	portView.basicThumb();
+        if (app.configModel.isThumb() == 1) {
+        	app.portView.basicThumb();
         }
 	},
 	flipBack: function () {
@@ -22,9 +22,9 @@ window.PageView = Backbone.View.extend({
             present.removeClass('present').addClass('future');
             prev.removeClass('past').addClass('present');
         }
-        if (configModel.isThumb() == 1) {
-        	var portView = new PortView();
-        	portView.basicThumb();
+        if (app.configModel.isThumb() == 1) {
+        	app.portView.basicThumb();
         }
 	}
 })
+app.pageView = new app.PageView;

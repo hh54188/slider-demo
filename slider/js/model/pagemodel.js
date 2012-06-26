@@ -1,25 +1,26 @@
-window.PageModel = Backbone.Model.extend({
+window.app = window.app || {};
+window.app.PageModel = Backbone.Model.extend({
  	initialize: function(){
         this.bind("change:index", function () {
 
         });
     },
  	distribute: function (ecode) {
- 		var pageView = new PageView();
  		if (ecode == 39) {//right
- 			if (configModel.getCurPage() < configModel.getTotalPage()) {
-	 			configModel.nextIndex();
-	 			pageView.flipForward(); 				
+ 			if (app.configModel.getCurPage() < app.configModel.getTotalPage()) {
+	 			app.configModel.nextIndex();
+	 			app.pageView.flipForward(); 				
  			}
  		} else if (ecode == 37) {//left
- 			if (configModel.getCurPage() > 1) {
- 				configModel.prevIndex();
- 				pageView.flipBack();
+ 			if (app.configModel.getCurPage() > 1) {
+ 				app.configModel.prevIndex();
+ 				app.pageView.flipBack();
  			}
  		} else if (ecode == 27) {//thumb
- 			configModel.toggleThumb();
+ 			app.configModel.toggleThumb();
  		} else if(ecode == 81) {
 
  		}
  	}
  })
+app.pageModel = new app.PageModel;
