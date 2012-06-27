@@ -7,7 +7,6 @@ $(function(){
 	$(document).keyup(function (e) {
 		app.configModel.distribute(e.keyCode);
         app.portView.portView3dOn();
-        // app.portView.randomRotateOn();
 	})
 });
 

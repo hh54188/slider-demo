@@ -1,4 +1,6 @@
 h1, h2, h3 {
+	font-family: 'League Gothic', sans-serif;
+	text-transform: uppercase;
 	text-align: center;
     color: #ffffff;
     padding: 10px;

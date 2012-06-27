@@ -24,8 +24,8 @@ window.app.ConfigModel = Backbone.Model.extend({
         	    app.portView.resetThumb();
             } else if (this.get('enableThumb') ==1 ) {
                 app.sliderView.showControl();
-        	    app.portView.basicThumb();
                 app.portView.portView3dOff();
+        	    app.portView.basicThumb();
             }
         });
      },

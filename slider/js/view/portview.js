@@ -42,43 +42,46 @@ window.app.PortView = Backbone.View.extend({
     portView3dOn: function () {
         var _this = this;
         $(document).on('mousemove', function (e) {
-            var cw = document.documentElement.clientWidth;
-            var ch = document.documentElement.clientHeight;
-            var centerX = cw / 2;
-            var centerY = ch / 2;
-            var x;
-            var y;
-            if (e.clientX < centerX) {
-                var dx = Math.abs(centerX - e.clientX);
-                dx = parseFloat(dx / centerX).toFixed(5);
-                var degree = dx * 90 * 0.1;
-                var x = degree * (-1);
-            } else {
-                var dx = Math.abs(centerX - e.clientX);
-                dx = parseFloat(dx / centerX).toFixed(5);
-                var degree = dx * 90 * 0.1;
-                var x = degree;
-            }
+            var x = -( .5 - ( e.clientX / window.innerWidth ) ) * 20;
+            var y = ( .5 - ( e.clientY / window.innerHeight ) ) * 20;
+////////////////////////////////////////////////
+            // var cw = document.documentElement.clientWidth;
+            // var ch = document.documentElement.clientHeight;
+            // var centerX = cw / 2;
+            // var centerY = ch / 2;
+            // var x;
+            // var y;
+            // if (e.clientX < centerX) {
+            //     var dx = Math.abs(centerX - e.clientX);
+            //     dx = parseFloat(dx / centerX).toFixed(5);
+            //     var degree = dx * 90 * 0.1;
+            //     var x = degree * (-1);
+            // } else {
+            //     var dx = Math.abs(centerX - e.clientX);
+            //     dx = parseFloat(dx / centerX).toFixed(5);
+            //     var degree = dx * 90 * 0.1;
+            //     var x = degree;
+            // }
 
-            if (e.clientY < centerY) {
-                var dy = Math.abs(centerY - e.clientY);
-                dy = parseFloat(dy / centerY).toFixed(5);
-                var degree = dy * 90 * 0.1;
-                var y = degree;
-            } else {
-                var dy = Math.abs(centerY - e.clientY);
-                dy = parseFloat(dy / centerY).toFixed(5);
-                var degree = dy * 90 * 0.1;
-                var y = degree * (-1);
-            }
-            
+            // if (e.clientY < centerY) {
+            //     var dy = Math.abs(centerY - e.clientY);
+            //     dy = parseFloat(dy / centerY).toFixed(5);
+            //     var degree = dy * 90 * 0.1;
+            //     var y = degree;
+            // } else {
+            //     var dy = Math.abs(centerY - e.clientY);
+            //     dy = parseFloat(dy / centerY).toFixed(5);
+            //     var degree = dy * 90 * 0.1;
+            //     var y = degree * (-1);
+            // }
+////////////////////////////////////////////////
             _this._rotatePortview(x, y);
             
         })
     },
     portView3dOff: function () {
         console.log('3d off');
-        $(document).unbind('mousemove');
+        $(document).off('mousemove');
     },
     randomRotateOn: function () {
         var _this = this;
