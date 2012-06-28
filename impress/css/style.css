@@ -23,18 +23,20 @@ body{
 .slider-container{
     left: 50%;
     top: 50%;
-
     position: absolute;
-    
-    -webkit-transform:translateZ(-2000px);
+    border:1px solid black;
+
     -webkit-transform-style: preserve-3d;
-    -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 300ms;
+    -webkit-transition: all cubic-bezier(0.26, 0.86, 0.44, 0.985) 800ms;
 }
 .square{
     background:green;
     width:300px;
     height:200px;
     position: absolute;
-    left:-1000px;
-    top:-300px;
+    left: -100px;
+    top: -150px;
+
+    -webkit-transform-style: preserve-3d;
+    -webkit-transform:translate3D(-1000px, 1000px, -2000px);
 }

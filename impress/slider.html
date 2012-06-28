@@ -8,7 +8,10 @@
     <script type="text/javascript">
         $(function () {
             $(document).keydown(function () {
-                $('.slider-container')[0].style.WebkitTransform = "scale(3) translateX(1000px) translateX(300px)";
+                $('.slider-container')[0].style.WebkitTransform = "translate3D(1000px, -1000px, 0px)";
+                setTimeout(function () {
+                    $('.slider-container')[0].style.WebkitTransform = "translate3D(1000px, -1000px, 2000px)";
+                }, 1000);
             })
         })
     </script>

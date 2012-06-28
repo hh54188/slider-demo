@@ -8,46 +8,138 @@
     <script type="text/javascript" src="js/basic/backbone-min.js"></script>
     <script type="text/javascript">
         $(function () {
-            window.ConfigModel = Backbone.Model.extend({
-                defaults: {
-                    'enable':0
-                },
-                initialize: function(){
-                    // this.bind("change:enable", function () {
-                    //     console.log('changed!');
-                    //     var portView2 = new PortView();
-                    //     portView2.viewOff();                        
-                    // });
-                },
-                change:function () {
-                     console.log('changed!');
-                    this.set('enable', 9);
-                }
-             })
+            var moveto = function (el, param) {
+                var duration = param["duration"] * 1000;
+                var delay = param["delay"] * 1000;
+                var x = parseInt(param["x"]);
+                var y = parseInt(param["y"]);
+                var oX = parseInt(el.css('left'));
+                var oY = parseInt(el.css('top'));
+                var xPerSec = (x - oX) / parseFloat(duration);
+                var yPerSec = (y - oY) / parseFloat(duration);
+                var tX = oX; var tY = oY;//backup
+                setTimeout(function () {
+                    var timer = setInterval(function () {
+                        oX = oX + xPerSec * 10;
+                        oY = oY + yPerSec * 10;
+                        el.css({
+                            'left': oX + 'px',
+                            'top': oY + 'px'
+                        })
+                        if ((x < tX && oX <= x || x > tX && oX >= x || x == tX)&&(y < tY && oY <= y || y > tY && oY >= y || y == tY)) {
+                            el.css({
+                                'left': x + 'px',
+                                'top': y + 'px'
+                            })          
+                            clearInterval(timer);
+                        }
+                    }, 10)    
+                }, delay)
+                
+            }
 
-            window.PortView = Backbone.View.extend({
-                viewOn: function () {
-                    $(document).on('mousemove', function () {
-                        console.log('move')
-                    })
-                },
-                viewOff: function () {
-                    console.log('off');
-                    $(document).off('mousemove');
-                }
-            })
+            var opacityTo = function(el, param, opacity) {
+                var duration = param["duration"] * 1000;
+                var delay = param["delay"] * 1000; 
+                // var el = $('#' + id + '');
+                var op = parseFloat(el.css('opacity'));
+                var step = (opacity - op) / parseFloat(duration);
+                var to = op;//backup
+                opacity = parseFloat(opacity);
 
-            var portView1 = new PortView();
-            portView1.viewOn();
+                setTimeout(function () {
+                    var timer = setInterval(function () {
+                        op = op + step * 10;
+                        el.css('opacity', op);
+                        if (opacity < to && op <= opacity || opacity > to && op >= opacity) {
+                            el.css('opacity', opacity);
+                            clearInterval(timer);
+                        }
+                    }, 10)
+                }, delay)
+            }
 
-            $('input').click(function () {
-                var configModel = new ConfigModel();
-                configModel.change();
-            })
+            var animateLeftRight = function (id, param) {
+                var duration = parseFloat(param["duration"]);
+                console.log('duration', duration);
+                var interval = duration / 4.0;
+                console.log('interval', interval);
+                var delay = parseFloat(param["delay"]);
+                var val = parseFloat(param["value"]);
+                var repeat = parseFloat(param["repeat"]);
+
+                var el = $('#' + id + '');
+                var left = parseInt(el.css('left'));
+                var top = parseInt(el.css('top'));
+                setTimeout(function () {
+                    var t = setInterval(function () {
+                        var param = {
+                            "duration": interval,
+                            "x": left - val,
+                            "y": top,
+                            "delay": 0
+                        }
+                        moveto(el, param)
+
+                        param = {
+                            "duration": interval,
+                            "x": left,
+                            "y": top,
+                            "delay": 0
+                        }
+                        setTimeout(function () {
+                            moveto(el, param);  
+                        }, interval * 1000);
+
+                        param = {
+                            "duration": interval,
+                            "x": left + val,
+                            "y": top,
+                            "delay": 0
+                        }
+                        setTimeout(function () {
+                            moveto(el, param);  
+                        }, interval * 2 * 1000);
+
+                        // param = {
+                        //     "duration": interval,
+                        //     "x": left,
+                        //     "y": top,
+                        //     "delay": 0
+                        // }
+                        // setTimeout(function () {
+                        //     moveto(el, param);  
+                        // }, interval * 3 * 1000);    
+
+                    }, duration * 1000);
+                }, delay * 1000);
+
+            }
+            var param = {
+                "duration": 2,
+                "delay": 0,
+                "value": 20,
+                "repeat": -1,
+                "x": 100,
+                "y": 100
+            } 
+            animateLeftRight("test", param);
+
         })
     </script>
+    <style type="text/css">
+        *{margin:0; padding: 0;}
+        div{
+            width: 50px;
+            height: 50px;
+            background: red;
+            position: absolute;
+            left: 50px;
+            top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <input type="button" value="stop">
+    <div id="test"></div>
 </body>
 </html>
