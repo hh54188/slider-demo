@@ -8,7 +8,7 @@
     <script type="text/javascript" src="js/basic/backbone-min.js"></script>
     <script type="text/javascript">
         $(function () {
-            var moveto = function (el, param) {
+            var moveto = function (el, param, callback) {
                 var duration = param["duration"] * 1000;
                 var delay = param["delay"] * 1000;
                 var x = parseInt(param["x"]);
@@ -32,16 +32,17 @@
                                 'top': y + 'px'
                             })          
                             clearInterval(timer);
+                            if (callback != undefined) {
+                                callback();    
+                            }
                         }
                     }, 10)    
                 }, delay)
-                
             }
 
-            var opacityTo = function(el, param, opacity) {
+            var opacityTo = function(el, param, opacity, callback) {
                 var duration = param["duration"] * 1000;
                 var delay = param["delay"] * 1000; 
-                // var el = $('#' + id + '');
                 var op = parseFloat(el.css('opacity'));
                 var step = (opacity - op) / parseFloat(duration);
                 var to = op;//backup
@@ -54,16 +55,60 @@
                         if (opacity < to && op <= opacity || opacity > to && op >= opacity) {
                             el.css('opacity', opacity);
                             clearInterval(timer);
+                            if (callback != undefined) {
+                                callback();
+                            }
                         }
                     }, 10)
                 }, delay)
             }
 
+            var fadeIn = function(id, param) {
+                var duration = parseFloat(param["duration"]);
+                var delay = parseFloat(param["delay"]);
+
+                var el = $("#" + id +"");
+                var _param = {
+                    "duration": duration,
+                    "delay": delay
+                }
+
+                opacityTo(el, _param, 1);
+            }
+
+            var fadeOut = function (id, param) {
+                var duration = parseFloat(param["duration"]);
+                var delay = parseFloat(param["delay"]);
+
+                var el = $("#" + id +"");
+                var _param = {
+                    "duration": duration,
+                    "delay": delay
+                }
+
+                opacityTo(el, _param, 0);    
+            }
+
+            var scaleTo = function (el, times, origin, duration, callback) {
+                var scalePerSec = parseFloat(times - origin) / (duration * 1000);
+                var total = origin;
+                var timer = setInterval(function () {
+                    total = total + scalePerSec * 10;
+                    el[0].style.WebkitTransform = "scale(" + total + ")";
+                    if (times > origin && total >= times || times < origin && total <= times) {
+                        clearInterval(timer);
+                        if (callback != undefined) {
+                            callback();
+                        }
+                        return false;
+                    }
+
+                }, 10)
+            }
+
             var animateLeftRight = function (id, param) {
                 var duration = parseFloat(param["duration"]);
-                console.log('duration', duration);
                 var interval = duration / 4.0;
-                console.log('interval', interval);
                 var delay = parseFloat(param["delay"]);
                 var val = parseFloat(param["value"]);
                 var repeat = parseFloat(param["repeat"]);
@@ -71,60 +116,220 @@
                 var el = $('#' + id + '');
                 var left = parseInt(el.css('left'));
                 var top = parseInt(el.css('top'));
+
+                var _exe = function () {
+                    var el = $("#" + id + "");
+                    var param01 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left - val,
+                        "y": top
+                    } 
+                    var param02 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left,
+                        "y": top
+                    } 
+                    var param03 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left + val,
+                        "y": top
+                    } 
+                    var param04 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left,
+                        "y": top
+                    } 
+                    var sec = function () {
+                        moveto(el, param02, third);
+                    }
+
+                    var third = function () {
+                        moveto(el, param03, four);   
+                    }
+
+                    var four = function () {
+                        moveto(el, param04);   
+                    }
+
+                    moveto(el, param01, sec);   
+                }
+                _exe();
                 setTimeout(function () {
-                    var t = setInterval(function () {
-                        var param = {
-                            "duration": interval,
-                            "x": left - val,
-                            "y": top,
-                            "delay": 0
+                    var timer = setInterval(function () {
+                        _exe();
+                        if (repeat != -1) {
+                            repeat--;
+                            if (repeat <= 0) {
+                                clearInterval(timer);
+                            }
                         }
-                        moveto(el, param)
-
-                        param = {
-                            "duration": interval,
-                            "x": left,
-                            "y": top,
-                            "delay": 0
-                        }
-                        setTimeout(function () {
-                            moveto(el, param);  
-                        }, interval * 1000);
-
-                        param = {
-                            "duration": interval,
-                            "x": left + val,
-                            "y": top,
-                            "delay": 0
-                        }
-                        setTimeout(function () {
-                            moveto(el, param);  
-                        }, interval * 2 * 1000);
-
-                        // param = {
-                        //     "duration": interval,
-                        //     "x": left,
-                        //     "y": top,
-                        //     "delay": 0
-                        // }
-                        // setTimeout(function () {
-                        //     moveto(el, param);  
-                        // }, interval * 3 * 1000);    
-
-                    }, duration * 1000);
+                    }, duration * 1000)
                 }, delay * 1000);
-
             }
-            var param = {
-                "duration": 2,
+
+            var animateTopBottom = function (id, param) {
+                var duration = parseFloat(param["duration"]);
+                var interval = duration / 4.0;
+                var delay = parseFloat(param["delay"]);
+                var val = parseFloat(param["value"]);
+                var repeat = parseFloat(param["repeat"]);
+
+                var el = $('#' + id + '');
+                var left = parseInt(el.css('left'));
+                var top = parseInt(el.css('top'));
+
+                var _exe = function () {
+                    var el = $("#" + id + "");
+                    var param01 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left,
+                        "y": top - val
+                    } 
+                    var param02 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left,
+                        "y": top 
+                    } 
+                    var param03 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left,
+                        "y": top + val
+                    } 
+                    var param04 = {
+                        "duration": interval,
+                        "delay": 0,
+                        "x": left,
+                        "y": top
+                    } 
+                    var sec = function () {
+                        moveto(el, param02, third);
+                    }
+
+                    var third = function () {
+                        moveto(el, param03, four);   
+                    }
+
+                    var four = function () {
+                        moveto(el, param04);   
+                    }
+
+                    moveto(el, param01, sec);
+                }
+                _exe();
+                setTimeout(function () {
+                    var timer = setInterval(function () {
+                        _exe();
+                        if (repeat != -1) {
+                            repeat--;
+                            if (repeat <= 0) {
+                                clearInterval(timer);
+                            }
+                        }
+                    }, duration * 1000)
+                }, delay * 1000);
+            }
+
+            var animateAlpha = function (id, param) {
+                var duration = param["duration"];
+                var delay = param["delay"];
+                var repeat = param["repeat"];
+                var val = param["value"];
+
+                var interval = duration / 2.0;
+                var el = $('#' + id +'').parent();
+                var o = parseInt(el.css("opacity"));
+                var _exe = function () {
+                    var param = {
+                        "duration": interval,
+                        "delay": 0
+                    }
+                    var sec = function () {
+                        opacityTo(el, param, val);
+                    }
+                    opacityTo(el, param, 0, sec);                    
+                }
+
+                _exe();
+                setTimeout(function () {
+                    var timer = setInterval(function () {
+                        _exe();
+                        if (repeat != -1) {
+                            repeat--;
+                            if (repeat <= 0) {
+                                clearInterval(timer);
+                            }
+                        }
+                    }, duration * 1000)
+                }, delay * 1000);
+            }
+
+            var animateScale = function (id, param) {
+                var duration = param["duration"];
+                var interval = duration / 2.0
+                var delay = param["delay"];
+                var repeat = param["repeat"];
+                var val = param["value"];
+
+                var el = $('#' + id + '');
+
+                var _exe = function () {
+                    var sec = function () {
+                        scaleTo(el, 1, val, interval);
+                    }
+                    scaleTo(el, val, 1, interval, sec);
+                }
+
+                _exe();
+                setTimeout(function () {
+                    var timer = setInterval(function () {
+                        _exe();
+                        if (repeat != -1) {
+                            repeat--;
+                            if (repeat <= 0) {
+                                clearInterval(timer);
+                            }
+                        }
+                    }, duration * 1000)
+                }, delay * 1000);
+            }
+
+
+            var paramM = {
+                "duration": 1,
                 "delay": 0,
                 "value": 20,
                 "repeat": -1,
                 "x": 100,
                 "y": 100
             } 
-            animateLeftRight("test", param);
-
+            var id = "test";
+            var el = $("#" + id + "");
+            // animateLeftRight(id, paramM);
+            // animateTopBottom(id, paramM);
+            // fadeIn(id, paramM);
+            // fadeOut(id, paramM);
+            var paramO = {
+                "duration": 1,
+                "delay": 0,
+                "value": 1,
+                "repeat": -1,
+            } 
+            // animateAlpha(id, paramO);
+            var paramS ={
+                "duration": 2,
+                "delay": 0,
+                "value": 3,
+                "repeat": 3,                
+            }
+            // scaleTo(el, 0.6, 1, 2);
+            animateScale(id, paramS);
         })
     </script>
     <style type="text/css">
@@ -136,6 +341,7 @@
             position: absolute;
             left: 50px;
             top: 50px;
+            opacity: 1;
         }
     </style>
 </head>
