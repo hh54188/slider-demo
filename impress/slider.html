@@ -6,22 +6,66 @@
     <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <script type="text/javascript">
+        var cfg = {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "scale": 1
+        }
+
+        var resizeCanvas = function () {
+            var innerHeight = window.innerHeight;
+            var temp = 200 / parseFloat(window.innerHeight);
+            cfg.scale = 1 - temp;
+            $('#canvas')[0].style.WebkitTransform = "scale(" + cfg.scale + ")";            
+        }
+
         $(function () {
+            resizeCanvas();
+            $(window).resize(function () {
+                console.log('resize');
+                resizeCanvas();
+            })
+
+            $('.step').each(function () {
+                var width = parseInt($(this).css('width'));
+                var height = parseInt($(this).css('height'));
+                $(this).css({
+                    'top': "-=" + (height / 2) + "px",
+                    'left': "-=" + (width / 2) + "px"
+                })
+                var data = $(this).data();
+                $(this)[0].style.WebkitTransform = "translate3D(" + data.x + "px, " + data.y + "px, 0px)";
+            })
+
             $(document).keydown(function () {
-                $('.slider-container')[0].style.WebkitTransform = "translate3D(1000px, -1000px, 0px)";
-                setTimeout(function () {
-                    $('.slider-container')[0].style.WebkitTransform = "translate3D(1000px, -1000px, 2000px)";
-                }, 1000);
+                if ($('.future').length == 0) {
+                    $('.step').addClass('future');
+                }
+
+                var cur = $('.future:first');
+                var data = cur.data();
+                cfg.x = data.x;
+                cfg.y = data.y;
+                $("#canvas")[0].style.WebkitTransform = "scale(" + cfg.scale + ") translate3D(" + cfg.x * (-1) + "px, " + cfg.y * (-1) + "px, 0px)";
+                cur.removeClass('future');
             })
         })
     </script>
 </head>
 <body>
-<div id="wrapper">
-    <div class="slider-container">
-        <div class="square">
-            <h1>Here is a test header</h1>
-        </div>
+<div id="canvas">
+    <div class="step future" data-x="100" data-y="-100" data-scale="1">
+        <h1>Here is a test header</h1>
+    </div>
+    <div class="step future" data-x="-300" data-y="-300" data-scale="1">
+        <h1>Here is a test header</h1>
+    </div>
+    <div class="step future" data-x="300" data-y="300" data-scale="1">
+        <h1>Here is a test header</h1>
+    </div>
+    <div class="step future" data-x="-500" data-y="100" data-scale="1">
+        <h1>Here is a test header</h1>
     </div>
 </div>
 </body>

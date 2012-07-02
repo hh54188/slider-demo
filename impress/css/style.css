@@ -5,38 +5,26 @@ html{
 body{
     height:100%;
     overflow: hidden;
+    -webkit-perspective: 1000px; 
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
 }
 
-#wrapper{
+#canvas{
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
     position: absolute;
-    right: 0;
-    top: 0;
+    left: 50%;
+    top:50%;
     -webkit-transform-style: preserve-3d;
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
-    -webkit-perspective: 1000px; 
 }
-
-.slider-container{
-    left: 50%;
-    top: 50%;
-    position: absolute;
-    border:1px solid black;
-
-    -webkit-transform-style: preserve-3d;
-    -webkit-transition: all cubic-bezier(0.26, 0.86, 0.44, 0.985) 800ms;
-}
-.square{
+.step{
     background:green;
     width:300px;
     height:200px;
     position: absolute;
-    left: -100px;
-    top: -150px;
+    left: 0px;
+    top: 0px;
 
     -webkit-transform-style: preserve-3d;
-    -webkit-transform:translate3D(-1000px, 1000px, -2000px);
+    /*-webkit-transform:translate3D(-1000px, 1000px, -2000px);*/
 }
