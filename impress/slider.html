@@ -11,19 +11,52 @@
             "y": 0,
             "z": 0,
             "scale": 1
-        }
+        };
 
+        var config = {
+            width: 1024,
+            height: 768,
+            maxScale: 1,
+            minScale: 0,
+            perspective: 1000,
+            transitionDuration: 1000
+        };
+
+        var computeWindowScale = function ( config ) {
+            var hScale = window.innerHeight / config.height,
+                wScale = window.innerWidth / config.width,
+                scale = hScale > wScale ? wScale : hScale;
+            
+            if (config.maxScale && scale > config.maxScale) {
+                scale = config.maxScale;
+            }
+            
+            if (config.minScale && scale < config.minScale) {
+                scale = config.minScale;
+            }
+            
+            return scale;
+        };
+
+        var toNumber = function (numeric, fallback) {
+            return isNaN(numeric) ? (fallback || 0) : Number(numeric);
+        };
+        //perspective( config.perspective/windowScale ) + scale( windowScale )
         var resizeCanvas = function () {
-            var innerHeight = window.innerHeight;
-            var temp = 200 / parseFloat(window.innerHeight);
-            cfg.scale = 1 - temp;
-            $('#canvas')[0].style.WebkitTransform = "scale(" + cfg.scale + ")";            
+            var scale = computeWindowScale(config);//-webkit-perspective: 1000px; 
+            $('#camera-zoom')[0].style.WebkitPerspective  = config.perspective/scale + "px";
+            $('#camera-zoom')[0].style.WebkitTransform = "scale(" + scale + ")";
+
+            var steps = $('.step');
+            steps.each(function () {
+                $(this)[0].style.WebkitTransform = "translate(-50%,-50%)";
+            })
         }
 
         $(function () {
             resizeCanvas();
+
             $(window).resize(function () {
-                console.log('resize');
                 resizeCanvas();
             })
 
@@ -47,25 +80,28 @@
                 var data = cur.data();
                 cfg.x = data.x;
                 cfg.y = data.y;
-                $("#canvas")[0].style.WebkitTransform = "scale(" + cfg.scale + ") translate3D(" + cfg.x * (-1) + "px, " + cfg.y * (-1) + "px, 0px)";
+                $('#camera-zoom')[0].style.WebkitTransform = "scale(1)";            
+                $("#camera-move")[0].style.WebkitTransform = "translate(" + cfg.x * (-1) + "px, " + cfg.y * (-1) + "px)";
                 cur.removeClass('future');
             })
         })
     </script>
 </head>
 <body>
-<div id="canvas">
-    <div class="step future" data-x="100" data-y="-100" data-scale="1">
-        <h1>Here is a test header</h1>
-    </div>
-    <div class="step future" data-x="-300" data-y="-300" data-scale="1">
-        <h1>Here is a test header</h1>
-    </div>
-    <div class="step future" data-x="300" data-y="300" data-scale="1">
-        <h1>Here is a test header</h1>
-    </div>
-    <div class="step future" data-x="-500" data-y="100" data-scale="1">
-        <h1>Here is a test header</h1>
+<div id="camera-zoom">
+    <div id="camera-move">
+        <div class="step future" data-x="100" data-y="-100" data-scale="1">
+            <h1>X: 100, Y: -100</h1>
+        </div>
+        <div class="step future" data-x="-300" data-y="-300" data-scale="1">
+            <h1>X: -300, Y: -300</h1>
+        </div>
+        <div class="step future" data-x="300" data-y="300" data-scale="1">
+            <h1>X: 300, Y: 300</h1>
+        </div>
+        <div class="step future" data-x="-500" data-y="100" data-scale="1">
+            <h1>X: -500, Y: 100</h1>
+        </div>        
     </div>
 </div>
 </body>

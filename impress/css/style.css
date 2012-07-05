@@ -5,26 +5,32 @@ html{
 body{
     height:100%;
     overflow: hidden;
-    -webkit-perspective: 1000px; 
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
 }
 
-#canvas{
+#camera-zoom{
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
     position: absolute;
     left: 50%;
     top:50%;
+    -webkit-perspective: 1000px; 
+    -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
+}
+#camera-move{
+    position: absolute;
+    left: 50%;
+    top:50%;
+
     -webkit-transform-style: preserve-3d;
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
 }
 .step{
     background:green;
-    width:300px;
-    height:200px;
+    width:400px;
+    height:400px;
     position: absolute;
     left: 0px;
     top: 0px;
 
     -webkit-transform-style: preserve-3d;
-    /*-webkit-transform:translate3D(-1000px, 1000px, -2000px);*/
 }
