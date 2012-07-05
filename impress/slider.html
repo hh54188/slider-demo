@@ -9,13 +9,16 @@
         var cfg = {
             "x": 0,
             "y": 0,
-            "z": 0,
             "scale": 1
         };
 
+        var custom = {
+            "scale": 1
+        }
+
         var config = {
-            width: 1024,
-            height: 768,
+            width: 1280,
+            height: 800,
             maxScale: 1,
             minScale: 0,
             perspective: 1000,
@@ -25,7 +28,7 @@
         var computeWindowScale = function ( config ) {
             var hScale = window.innerHeight / config.height,
                 wScale = window.innerWidth / config.width,
-                scale = hScale > wScale ? wScale : hScale;
+                scale = hScale > wScale ? wScale : hScale;//取一个最小的
             
             if (config.maxScale && scale > config.maxScale) {
                 scale = config.maxScale;
@@ -38,18 +41,16 @@
             return scale;
         };
 
-        var toNumber = function (numeric, fallback) {
-            return isNaN(numeric) ? (fallback || 0) : Number(numeric);
-        };
-        //perspective( config.perspective/windowScale ) + scale( windowScale )
+        //只针对camera-zoom
         var resizeCanvas = function () {
-            var scale = computeWindowScale(config);//-webkit-perspective: 1000px; 
+            var scale = computeWindowScale(config);
+            custom.scale = scale;
             $('#camera-zoom')[0].style.WebkitPerspective  = config.perspective/scale + "px";
             $('#camera-zoom')[0].style.WebkitTransform = "scale(" + scale + ")";
 
             var steps = $('.step');
             steps.each(function () {
-                $(this)[0].style.WebkitTransform = "translate(-50%,-50%)";
+                
             })
         }
 
@@ -68,7 +69,7 @@
                     'left': "-=" + (width / 2) + "px"
                 })
                 var data = $(this).data();
-                $(this)[0].style.WebkitTransform = "translate3D(" + data.x + "px, " + data.y + "px, 0px)";
+                $(this)[0].style.WebkitTransform = "translate3D(" + data.x + "px, " + data.y + "px, 0px) scale(0.4)";
             })
 
             $(document).keydown(function () {
@@ -78,10 +79,17 @@
 
                 var cur = $('.future:first');
                 var data = cur.data();
-                cfg.x = data.x;
-                cfg.y = data.y;
+
+                var target = {
+                    "x": data.x * (-1),
+                    "y": data.y * (-1),
+                    "scale": 1 / data.scale
+                }
+
+                var targetScale = target.scale * custom.scale;
+
                 $('#camera-zoom')[0].style.WebkitTransform = "scale(1)";            
-                $("#camera-move")[0].style.WebkitTransform = "translate(" + cfg.x * (-1) + "px, " + cfg.y * (-1) + "px)";
+                $("#camera-move")[0].style.WebkitTransform = "translate(" + target.x + "px, " + target.y + "px)";
                 cur.removeClass('future');
             })
         })

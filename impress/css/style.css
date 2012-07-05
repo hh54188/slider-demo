@@ -26,11 +26,12 @@ body{
 }
 .step{
     background:green;
-    width:400px;
-    height:400px;
+    width:960px;
+    height:600px;
     position: absolute;
     left: 0px;
     top: 0px;
 
     -webkit-transform-style: preserve-3d;
+    -webkit-transform:scale(0.1);
 }
