@@ -12,13 +12,21 @@
             App.View.initCanvas();
             App.View.initStep();
 
+            //按键 
             $(document).keydown(function () {
                 if ($('.future').length == 0) {
                     $('.step').addClass('future');
                 }
+
+                $('.cur').removeClass('cur');
                 var cur = $('.future:first');
                 App.View.setStep(cur);
-                cur.removeClass('future');
+                cur.removeClass('future').addClass('cur');
+            })
+
+            //重置窗口
+            $(window).resize(function () {
+                 App.View.resizeCanvas();
             })
         })
     </script>
@@ -29,7 +37,7 @@
         <div class="step future" data-x="100" data-y="-100" data-scale="0.5">
             <h1>X: 100, Y: -100</h1>
         </div>
-        <div class="step future" data-x="-300" data-y="-300" data-scale="1">
+        <div class="step future" data-x="-300" data-y="-300" data-scale="1" data-rotatey="30">
             <h1>X: -300, Y: -300</h1>
         </div>
         <div class="step future" data-x="300" data-y="300" data-scale="1">

@@ -18,7 +18,8 @@ Config.StepView = {
 	z: 0,
 	rotateX: 0,
 	rotateY: 0,
-	rotateZ: 0
+	rotateZ: 0,
+	scale: 1
 }
 
 Config.curStep ={}
