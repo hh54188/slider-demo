@@ -13,6 +13,12 @@ Config.ViewPort = {
 Config.StepView = {
 	width: 960,
 	height: 600,
+	x: 0,
+	y: 0,
+	z: 0,
+	rotateX: 0,
+	rotateY: 0,
+	rotateZ: 0
 }
 
 Config.curStep ={}
