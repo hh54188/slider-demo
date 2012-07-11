@@ -14,13 +14,20 @@
 
             //按键 
             $(document).keydown(function () {
+                //如果播放完毕，从头开始
                 if ($('.future').length == 0) {
-                    $('.step').addClass('future');
+                    $('.step').removeClass('past').addClass('future');
                 }
 
-                $('.cur').removeClass('cur');
+                $('.cur').removeClass('cur').addClass('past');
                 var cur = $('.future:first');
-                App.View.setStep(cur);
+                var pastone = $('.past:last');
+                if ($('.past').length == 0) {
+                    App.View.simpleSetStep(cur);
+                } else {
+                    App.View.setStep(cur, pastone);    
+                }
+                // App.View.simpleSetStep(cur);
                 cur.removeClass('future').addClass('cur');
             })
 

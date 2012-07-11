@@ -6,7 +6,7 @@ Config.ViewPort = {
     maxScale: 1.2,
     minScale: 0,
     perspective: 1000,
-    transitionDuration: 1000,
+    transitionDuration: 500,
     stepScale: 1
 }
 
