@@ -3,7 +3,7 @@ window.Config = window.Config || {};
 Config.ViewPort = {
     width: 1280,
     height: 800,
-    maxScale: 1,
+    maxScale: 1.2,
     minScale: 0,
     perspective: 1000,
     transitionDuration: 1000,

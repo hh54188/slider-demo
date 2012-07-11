@@ -91,12 +91,12 @@ window.App.View = window.App.View || {};
         
 	global.resizeCanvas = function (scale) {
         this.initCanvas();
-		// var scale = this.computeWindowScale(Config.ViewPort);
-		// this.setStep($('.cur'));
 	}
 
 	global.initCanvas = function () {
 		var scale = this.computeWindowScale(Config.ViewPort);
+        console.log('scale', scale);
+        Config.ViewPort.stepScale = scale;
 
         $('#camera-zoom')[0].style.WebkitPerspective  = Config.ViewPort.perspective/scale + "px";
         $('#camera-zoom')[0].style.WebkitTransform = "scale(" + scale + ")";
