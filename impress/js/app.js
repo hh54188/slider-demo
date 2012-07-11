@@ -90,8 +90,9 @@ window.App.View = window.App.View || {};
 	}
         
 	global.resizeCanvas = function (scale) {
-		var scale = this.computeWindowScale(Config.ViewPort);
-		this.setStep($('.cur'));
+        this.initCanvas();
+		// var scale = this.computeWindowScale(Config.ViewPort);
+		// this.setStep($('.cur'));
 	}
 
 	global.initCanvas = function () {
