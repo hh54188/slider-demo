@@ -154,6 +154,10 @@ window.App.View = window.App.View || {};
         var viewMaxScale = parseFloat(Config.ViewPort.maxScale);
         //zoom out scale
         var scaleReview = (pastStep.scale / 2.0);
+        //duration
+        var duration = parseInt(Config.ViewPort.transitionDuration);
+        var zoomDuration = parseInt(Config.ViewPort.zoomDuration);
+        var moveDuration = parseInt(Config.ViewPort.moveDuration)
 
         //step fn
         var zoomOut = function () {
@@ -169,10 +173,9 @@ window.App.View = window.App.View || {};
         }
 
         var rotate = function () {
-            $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate) + cssRotate(step.rotate);
+            $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssRotate(step.rotate) + cssTranslate(step.translate);
         }
-
-        var duration = parseInt(Config.ViewPort.transitionDuration);
+        
         zoomOut();
 
         setTimeout(function () {
