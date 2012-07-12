@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="js/basic/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var a = function () {
+                console.log('this is fn a');
+                nextCall(callback);
+            }
+            var b = function () {
+                console.log('this is fn b');   
+                nextCall(callback);
+            }
+            var c = function () {
+                console.log('this is fn c');   
+                nextCall(callback);
+            }
+            var d = function () {
+                console.log('this is fn d');   
+                nextCall(callback);
+            }
+
+            // var callback = {
+            //     'a':{
+            //         'flag': true,
+            //         'fn': a
+            //     },
+            //     'b':{
+            //         'flag': false,
+            //         'fn': b
+            //     },
+            //     'c':{
+            //         'flag': false,
+            //         'fn': c
+            //     },
+            //     'd':{
+            //         'flag': false,
+            //         'fn': d
+            //     },
+            // }
+            // var nextCall = function (que) {
+            //     for (var i in callback) {
+            //         if (!que[i].flag) {
+            //             que[i].flag = true;
+            //             var fn = que[i].fn;
+            //             fn();
+            //             break;
+            //         }                
+            //     }
+            // }
+
+            var callback = [
+                {
+                    'flag': true,
+                    'fn': a
+                },
+
+                {
+                    'flag': false,
+                    'fn': b
+                },
+
+                {
+                    'flag': false,
+                    'fn': c
+                },
+
+                {
+                    'flag': false,
+                    'fn': d
+                }
+            ]
+
+            var resetCall = function (que) {
+                for (var i = 1; i < que.length; i++) {
+                        que[i].flag = false;
+                }
+                console.log('resetCall', que);
+            }
+
+            var nextCall = function (que) {
+                for (var i = 0; i < que.length; i++) {
+                    if (!que[i].flag) {
+                        que[i].flag = true;
+                        var fn = que[i].fn;
+                        fn();
+                        return;
+                    }                
+                }
+                resetCall(que);
+            }
+
+            a();
+
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

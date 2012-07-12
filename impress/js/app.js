@@ -147,7 +147,11 @@ window.App.View = window.App.View || {};
     }
 
 	global.setStep = function (el, past) {
+        //set flag
+        Config.isExecute = true;
+        //目的地址信息
         var step = collectCanvasData(el);
+        //当前地址信息
         var pastStep = collectCanvasData(past);
 
         var viewPortScale = parseFloat(Config.ViewPort.stepScale);
@@ -161,37 +165,80 @@ window.App.View = window.App.View || {};
 
         //step fn
         var zoomOut = function () {
+            console.log('new zoomOut');
+            if (scaleReview == pastStep.scale) return;
+            $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(pastStep.translate);
+            setTimeout(function () {
+                nextCall(callback);    
+            }, zoomDuration);
         }
 
         var move = function () {
+            console.log('new move');
+            $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(step.translate);   
+            setTimeout(function () {
+                nextCall(callback);    
+            }, moveDuration);
         }
 
         var zoomIn = function () {
+            console.log('new zoomIn');
+            if (step.scale == scaleReview) {
+                nextCall(callback);
+                return;
+            }
+
+            $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate);      
+
+            setTimeout(function () {
+                nextCall(callback);    
+            }, zoomDuration);
         }
 
         var rotate = function () {
+            console.log('rotate');
+            if (step.rotate == 0) return;
+            $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssRotate(step.rotate) + cssTranslate(step.translate);
+            setTimeout(function () {
+                nextCall(callback);    
+            }, zoomDuration);
         }
-        
+        //回调函数
+        var callback = [
+            { 'flag': true, 'fn': zoomOut },
+            { 'flag': false, 'fn': move },
+            { 'flag': false, 'fn': zoomIn },
+            { 'flag': false, 'fn': rotate }
+        ]
+
+        var resetCall = function (que) {
+            for (var i = 1; i < que.length; i++) {
+                    que[i].flag = false;
+            }
+            Config.isExecute = false;
+        }
+
+        var nextCall = function (que) {
+            for (var i = 0; i < que.length; i++) {
+                if (!que[i].flag) {
+                    que[i].flag = true;
+                    var fn = que[i].fn;
+                    fn();
+                    return;
+                }                
+            }
+            resetCall(que);
+        }
+
         zoomOut();
-
-        setTimeout(function () {
-            move();
-        }, duration)
-
-        setTimeout(function () {
-            zoomIn();
-        }, duration * 2);
-
-        setTimeout(function () {
-            rotate();
-        }, duration * 3);
 	}
 
     global.simpleSetStep = function (el) {
+        Config.isExecute = true;
         var step = collectCanvasData(el);
         var viewPortScale = parseFloat(Config.ViewPort.stepScale);
         var viewMaxScale = parseFloat(Config.ViewPort.maxScale);
@@ -199,5 +246,6 @@ window.App.View = window.App.View || {};
         var targetScale = (viewMaxScale - viewPortScale) / 2.0 + viewPortScale;
         var targetTrans = "scale(" + targetScale + ")";
         $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate) + cssRotate(step.rotate);
+        Config.isExecute = false;
     }
 })(App.View)

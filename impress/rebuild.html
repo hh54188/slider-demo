@@ -14,6 +14,7 @@
 
             //按键 
             $(document).keydown(function () {
+                if (Config.isExecute) return;
                 //如果播放完毕，从头开始
                 if ($('.future').length == 0) {
                     $('.step').removeClass('past').addClass('future');

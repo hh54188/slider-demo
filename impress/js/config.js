@@ -6,6 +6,8 @@ Config.ViewPort = {
     maxScale: 1.2,
     minScale: 0,
     perspective: 1000,
+    zoomDuration: 800,
+    moveDuration: 1300,
     transitionDuration: 500,
     stepScale: 1
 }
@@ -21,5 +23,7 @@ Config.StepView = {
 	rotateZ: 0,
 	scale: 1
 }
+
+Config.isExecute = false;
 
 Config.curStep ={}
