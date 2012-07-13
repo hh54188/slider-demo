@@ -112,6 +112,18 @@ window.App.View = window.App.View || {};
         // $('#camera-move')[0].style.WebkitTransform = "scale(" + scale + ")";
 	}
 
+    global.getNextStep = function () {
+        var $steps = $('.step');
+        //如果将要从第一页开始阅读
+        if ($('.cur').length == 0 || $('.future').length == 0) {
+            $steps.removeClass('cur').removeClass('past').addClass('future');
+            var cur = $('.future:first');
+        } else {
+            $('.cur').next().addClass('cur').removeClass('future');
+            $('.cur').removeClass('cur').addClass('past');
+        }
+    }
+
 	global.initStep = function () {
 		var steps = $('.step') //jQuery cache
 		var stepCount = steps.length;
