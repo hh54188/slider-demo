@@ -147,6 +147,9 @@ section{
 }
 .flex-box{
     display: -webkit-box;
+    -webkit-flex-pack: center;
+    -webkit-flex-align: center;
+    
     -webkit-box-align: center;
     -webkit-box-orient: vertical;
 }

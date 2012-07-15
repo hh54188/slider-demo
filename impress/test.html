@@ -4,101 +4,96 @@
     <title></title>
     <script type="text/javascript" src="js/basic/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
+    <script type="text/javascript" src="js/basic/underscore-min.js"></script>
+    <script type="text/javascript" src="js/basic/backbone-min.js"></script>
+    <style type="text/css">
+        *{margin: 0; padding: 0;}
+        .slider {
+            width: 960px;
+            height: 400px;
+            background: green;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        .flex-wrap {
+            display: -webkit-box;
+            -webkit-box-align: center;
+            -webkit-box-orient: vertical;
+            border: 1px solid black;
+            -webkit-perspective: 200px;
+        }
+        .box {
+            margin-top: 20px;
+            opacity: 0;
+            -webkit-box-flex: 1;
+            position: relative;
+            -webkit-transform-style: preserve-3d;
+            -webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
+            -webkit-transform-origin: 50% 0%;
+            -webkit-transform: rotateX(-90deg);
+        }
+        .box h1 {
+            padding: 5px;
+        }
+        .box input {
+            background: rgba(255, 255, 255, 0.5);
+            width: 100%;
+            height: 100%;
+            /*padding: 5px;*/
+            font-size: 32px;
+            display: none;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+        input{
+            display: block;
+        }
+    </style>
     <script type="text/javascript">
         $(function () {
-            var a = function () {
-                console.log('this is fn a');
-                nextCall(callback);
-            }
-            var b = function () {
-                console.log('this is fn b');   
-                nextCall(callback);
-            }
-            var c = function () {
-                console.log('this is fn c');   
-                nextCall(callback);
-            }
-            var d = function () {
-                console.log('this is fn d');   
-                nextCall(callback);
-            }
+            $('.box').dblclick(function () {
+                $(this).addClass('cur');
+                enableEdit();
+            });
 
-            // var callback = {
-            //     'a':{
-            //         'flag': true,
-            //         'fn': a
-            //     },
-            //     'b':{
-            //         'flag': false,
-            //         'fn': b
-            //     },
-            //     'c':{
-            //         'flag': false,
-            //         'fn': c
-            //     },
-            //     'd':{
-            //         'flag': false,
-            //         'fn': d
-            //     },
-            // }
-            // var nextCall = function (que) {
-            //     for (var i in callback) {
-            //         if (!que[i].flag) {
-            //             que[i].flag = true;
-            //             var fn = que[i].fn;
-            //             fn();
-            //             break;
-            //         }                
-            //     }
-            // }
+            $(document).click(function () {
+                $('.box')[0].style.webkitTransform = "rotateX(0deg)";
+                $('.box')[0].style.opacity = "1";
+            })
 
-            var callback = [
-                {
-                    'flag': true,
-                    'fn': a
-                },
+            $('.cur input').live('blur', function () {
+                displayEdit();
+                $('.cur').removeClass('cur');
+            })
 
-                {
-                    'flag': false,
-                    'fn': b
-                },
+            var enableEdit = function () {
+                var edit = $('.cur');
 
-                {
-                    'flag': false,
-                    'fn': c
-                },
-
-                {
-                    'flag': false,
-                    'fn': d
-                }
-            ]
-
-            var resetCall = function (que) {
-                for (var i = 1; i < que.length; i++) {
-                        que[i].flag = false;
-                }
-                console.log('resetCall', que);
+                // edit.find('h1').hide();
+                edit.find('h1').css('opacity', 0);
+                var text = edit.find('h1').text();
+                edit.find('input').val(text).show().focus();
             }
 
-            var nextCall = function (que) {
-                for (var i = 0; i < que.length; i++) {
-                    if (!que[i].flag) {
-                        que[i].flag = true;
-                        var fn = que[i].fn;
-                        fn();
-                        return;
-                    }                
-                }
-                resetCall(que);
+            var displayEdit = function () {
+                var edit = $('.cur');
+
+                edit.find('input').hide();
+                var text = edit.find('input').val();
+                edit.find('h1').text(text).css('opacity', 1);
             }
-
-            a();
-
         })
     </script>
 </head>
 <body>
-
+    <div class="slider">
+        <div class="flex-wrap">
+            <div class="box">
+                <h1>Hello World 1</h1>
+                <input type="text" >
+            </div>
+        </div>
+    </div>
 </body>
 </html>

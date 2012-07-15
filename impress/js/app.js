@@ -19,12 +19,12 @@ window.App.View = window.App.View || {};
         return " translate3d(" + t.x + "px," + t.y + "px," + t.z + "px) ";
     }
 
-    var cssRotate = function ( r ) {
+    var cssRotate = function ( r, revert ) {
         var rX = " rotateX(" + r.x + "deg) ",
             rY = " rotateY(" + r.y + "deg) ",
             rZ = " rotateZ(" + r.z + "deg) ";
-        
-        return rX+rY+rZ;
+
+        return revert ? rZ+rY+rX : rX+rY+rZ;
     };
 
     var cssScale = function ( s ) {
@@ -32,7 +32,7 @@ window.App.View = window.App.View || {};
     };
 
     var cssStep = function (el, step) {
-    	el[0].style.WebkitTransform = cssTranslate(step.translate) + cssRotate(step.rotate) + cssScale(step.scale);
+    	el[0].style.WebkitTransform = cssTranslate(step.translate) + cssRotate(step.rotate, false) + cssScale(step.scale);
     }
 
     var collectStepData = function (el) {
@@ -95,33 +95,48 @@ window.App.View = window.App.View || {};
 
 	global.initCanvas = function () {
 		var scale = this.computeWindowScale(Config.ViewPort);
-        console.log('scale', scale);
         Config.ViewPort.stepScale = scale;
 
         $('#camera-zoom').bind('webkitTransitionEnd', function () {
              
         });
-        // $('#camera-zoom')[0].addEventListener( 'webkitTransitionEnd', function( e ) { 
-        //     console.log( "Finished transition!" ); 
-        // }, false );
 
         $('#camera-zoom')[0].style.WebkitPerspective  = Config.ViewPort.perspective/scale + "px";
         $('#camera-zoom')[0].style.WebkitTransform = "scale(" + scale + ")";
 
-        // $('#camera-move')[0].style.WebkitPerspective  = Config.ViewPort.perspective/scale + "px";
-        // $('#camera-move')[0].style.WebkitTransform = "scale(" + scale + ")";
+        $('#overview').data('scale', scale);
 	}
 
     global.getNextStep = function () {
         var $steps = $('.step');
-        //如果将要从第一页开始阅读
-        if ($('.cur').length == 0 || $('.future').length == 0) {
+        var steps = {};
+        //如果还没有开始阅读
+        if ($('.cur').length == 0) {            
+            $('.future:first').addClass('cur').removeClass('future');
+
+            var cur = $('.cur');
+            var prev = $('#overview');
+        //如果已经到最后一页了
+        } else if ($('.future').length == 0) {
+            var cur = $('#overview');
             $steps.removeClass('cur').removeClass('past').addClass('future');
-            var cur = $('.future:first');
+            var prev = $('.future:last');
+        //一般情况
         } else {
-            $('.cur').next().addClass('cur').removeClass('future');
+            $('.cur').next().addClass('temp').removeClass('future');
             $('.cur').removeClass('cur').addClass('past');
+            $('.temp').addClass('cur').removeClass('temp');
+
+            var cur = $('.cur');
+            var prev = $('.cur').prev();
         }
+
+        steps = {
+            "cur": cur,
+            "prev": prev
+        }
+
+        return steps;
     }
 
 	global.initStep = function () {
@@ -147,20 +162,26 @@ window.App.View = window.App.View || {};
 		})
 	}
 
-    global.stepByStep = function () {
-        var viewPortScale = parseFloat(Config.ViewPort.stepScale);
-        var viewMaxScale = parseFloat(Config.ViewPort.maxScale);
-
-        var targetScale = (viewMaxScale - viewPortScale) / 2.0 + viewPortScale;
-        var targetTrans = "scale(" + targetScale + ")";
-        $("#camera-zoom")[0].style.WebkitTransform = targetTrans;
-        el[0].style.WebkitTransitionDuration = Config.ViewPort.transitionDuration + "ms";
-        // el[0].style.WebkitTransitionDelay = delay + "s";
-    }
-
 	global.setStep = function (el, past) {
         //set flag
         Config.isExecute = true;
+        //如果上一步是overview
+        // if (past.prop('id') == "overview") {
+        //     global.simpleSetStep(el);
+        //      Config.isExecute = false;
+        //     return;
+        // } else if (el.prop('id') == "overview") {
+        //     $("#camera-move")[0].style.WebkitTransform = "";
+        //     Config.isExecute = false;
+        //     return;
+        // }
+
+        if (el.prop('id') == "overview") {
+            $("#camera-move")[0].style.WebkitTransform = "";
+            Config.isExecute = false;
+            return;
+        }
+
         //目的地址信息
         var step = collectCanvasData(el);
         //当前地址信息
@@ -177,8 +198,10 @@ window.App.View = window.App.View || {};
 
         //step fn
         var zoomOut = function () {
-            console.log('new zoomOut');
-            if (scaleReview == pastStep.scale) return;
+            if (past.prop('id') == "overview") {
+                nextCall(callback);
+                return;
+            }
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(pastStep.translate);
             setTimeout(function () {
@@ -187,20 +210,26 @@ window.App.View = window.App.View || {};
         }
 
         var move = function () {
-            console.log('new move');
             $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(step.translate);   
-            setTimeout(function () {
-                nextCall(callback);    
-            }, moveDuration);
+
+            if (past.prop('id') == "overview") {
+                $("#camera-move")[0].style.WebkitTransform = cssTranslate(step.translate);   
+                setTimeout(function () {
+                    nextCall(callback);    
+                }, moveDuration);
+            } else {
+                $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(step.translate);   
+                setTimeout(function () {
+                    nextCall(callback);    
+                }, moveDuration);                
+            }            
         }
 
         var zoomIn = function () {
-            console.log('new zoomIn');
-            if (step.scale == scaleReview) {
-                nextCall(callback);
-                return;
-            }
+            // if (step.scale == scaleReview) {
+            //     nextCall(callback);
+            //     return;
+            // }
 
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate);      
@@ -211,10 +240,9 @@ window.App.View = window.App.View || {};
         }
 
         var rotate = function () {
-            console.log('rotate');
-            if (step.rotate == 0) return;
+            // if (step.rotate == 0) return;
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssRotate(step.rotate) + cssTranslate(step.translate);
+            $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssRotate(step.rotate, true) + cssTranslate(step.translate);
             setTimeout(function () {
                 nextCall(callback);    
             }, zoomDuration);
@@ -257,7 +285,7 @@ window.App.View = window.App.View || {};
 
         var targetScale = (viewMaxScale - viewPortScale) / 2.0 + viewPortScale;
         var targetTrans = "scale(" + targetScale + ")";
-        $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate) + cssRotate(step.rotate);
+        $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate) + cssRotate(step.rotate, true);
         Config.isExecute = false;
     }
 })(App.View)

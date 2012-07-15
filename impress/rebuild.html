@@ -15,21 +15,8 @@
             //按键 
             $(document).keydown(function () {
                 if (Config.isExecute) return;
-                //如果播放完毕，从头开始
-                if ($('.future').length == 0) {
-                    $('.step').removeClass('past').addClass('future');
-                }
-
-                $('.cur').removeClass('cur').addClass('past');
-                var cur = $('.future:first');
-                var pastone = $('.past:last');
-                if ($('.past').length == 0) {
-                    App.View.simpleSetStep(cur);
-                } else {
-                    App.View.setStep(cur, pastone);    
-                }
-                // App.View.simpleSetStep(cur);
-                cur.removeClass('future').addClass('cur');
+                var steps = App.View.getNextStep();
+                App.View.setStep(steps.cur, steps.prev); 
             })
 
             //重置窗口
@@ -42,18 +29,19 @@
 <body>
 <div id="camera-zoom">
     <div id="camera-move">
-        <div class="step future" data-x="100" data-y="-100" data-scale="0.5">
+        <div id="step-1" class="step future" data-x="100" data-y="-100" data-scale="1">
             <h1>X: 100, Y: -100</h1>
         </div>
-        <div class="step future" data-x="-300" data-y="-300" data-scale="1" data-rotatey="30">
+        <div id="step-2" class="step future" data-x="-300" data-y="-300" data-scale="1" data-rotatey="10" data-rotatex="-40">
             <h1>X: -300, Y: -300</h1>
         </div>
-        <div class="step future" data-x="300" data-y="300" data-scale="1">
+        <div id="step-3" class="step future" data-x="300" data-y="300" data-scale="0.5">
             <h1>X: 300, Y: 300</h1>
         </div>
-        <div class="step future" data-x="-500" data-y="100" data-scale="1">
+        <div id="step-4" class="step future" data-x="-500" data-y="100" data-scale="1">
             <h1>X: -500, Y: 100</h1>
-        </div>        
+        </div>   
+        <div id="overview"></div>     
     </div>
 </div>
 </body>
