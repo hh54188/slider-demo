@@ -103,37 +103,31 @@ window.App.View = window.App.View || {};
 
         $('#camera-zoom')[0].style.WebkitPerspective  = Config.ViewPort.perspective/scale + "px";
         $('#camera-zoom')[0].style.WebkitTransform = "scale(" + scale + ")";
-
-        $('#overview').data('scale', scale);
 	}
 
     global.getNextStep = function () {
         var $steps = $('.step');
         var steps = {};
+
         //如果还没有开始阅读
-        if ($('.cur').length == 0) {            
-            $('.future:first').addClass('cur').removeClass('future');
+        if ($('.cur').next().length == 0) {
+            $('.prev').removeClass('prev');
+            $('.cur').removeClass('cur');
 
-            var cur = $('.cur');
-            var prev = $('#overview');
-        //如果已经到最后一页了
-        } else if ($('.future').length == 0) {
-            var cur = $('#overview');
-            $steps.removeClass('cur').removeClass('past').addClass('future');
-            var prev = $('.future:last');
-        //一般情况
+            $('.step:first').addClass('cur');
+            $('.step:last').addClass('prev');
         } else {
-            $('.cur').next().addClass('temp').removeClass('future');
-            $('.cur').removeClass('cur').addClass('past');
-            $('.temp').addClass('cur').removeClass('temp');
+            var temp = $('.cur');
+            $('.prev').removeClass('prev');
+            $('.cur').removeClass('cur');
 
-            var cur = $('.cur');
-            var prev = $('.cur').prev();
+            temp.next().addClass('cur');
+            temp.addClass('prev');
         }
 
         steps = {
-            "cur": cur,
-            "prev": prev
+            "cur": $('.cur'),
+            "prev": $('.prev')
         }
 
         return steps;
@@ -165,21 +159,16 @@ window.App.View = window.App.View || {};
 	global.setStep = function (el, past) {
         //set flag
         Config.isExecute = true;
-        //如果上一步是overview
-        // if (past.prop('id') == "overview") {
-        //     global.simpleSetStep(el);
-        //      Config.isExecute = false;
-        //     return;
-        // } else if (el.prop('id') == "overview") {
-        //     $("#camera-move")[0].style.WebkitTransform = "";
-        //     Config.isExecute = false;
-        //     return;
-        // }
-
+        //overview作特殊处理
         if (el.prop('id') == "overview") {
             $("#camera-move")[0].style.WebkitTransform = "";
             Config.isExecute = false;
             return;
+        }
+
+        var pastIsOverview = false;
+        if (past.prop('id') == "overview") {
+            pastIsOverview = true;
         }
 
         //目的地址信息
@@ -190,47 +179,54 @@ window.App.View = window.App.View || {};
         var viewPortScale = parseFloat(Config.ViewPort.stepScale);
         var viewMaxScale = parseFloat(Config.ViewPort.maxScale);
         //zoom out scale
-        var scaleReview = (pastStep.scale / 2.0);
+        var scaleReview = ((1 / (Config.StepView.scale)) / 2.0);
+
         //duration
         var duration = parseInt(Config.ViewPort.transitionDuration);
         var zoomDuration = parseInt(Config.ViewPort.zoomDuration);
-        var moveDuration = parseInt(Config.ViewPort.moveDuration)
+        var moveDuration = parseInt(Config.ViewPort.moveDuration);
+        var rotateDuration = parseInt(Config.ViewPort.rotateDuration);
 
         //step fn
         var zoomOut = function () {
-            if (past.prop('id') == "overview") {
-                nextCall(callback);
-                return;
+            //特殊处理overview
+            if (pastIsOverview) {
+                nextCall(callback); 
+                return false;
             }
+            //normal
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(pastStep.translate);
+            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(pastStep.translate);                
+
             setTimeout(function () {
                 nextCall(callback);    
             }, zoomDuration);
         }
 
         var move = function () {
-            $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
-
-            if (past.prop('id') == "overview") {
-                $("#camera-move")[0].style.WebkitTransform = cssTranslate(step.translate);   
-                setTimeout(function () {
-                    nextCall(callback);    
-                }, moveDuration);
-            } else {
-                $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(step.translate);   
-                setTimeout(function () {
-                    nextCall(callback);    
-                }, moveDuration);                
+            if (step.translate.x == pastStep.translate.x && step.translate.y == pastStep.translate.y && step.translate.z == pastStep.translate.z) {
+                nextCall(callback);
+                return;
             }            
+            //special overview
+            if (pastIsOverview) {
+                $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
+                $("#camera-move")[0].style.WebkitTransform =  cssTranslate(step.translate);                   
+
+                setTimeout(function () {
+                    nextCall(callback);    
+                }, moveDuration); 
+                return false;
+            }
+            //normal
+            $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
+            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(step.translate);   
+            setTimeout(function () {
+                nextCall(callback);    
+            }, moveDuration);                           
         }
 
         var zoomIn = function () {
-            // if (step.scale == scaleReview) {
-            //     nextCall(callback);
-            //     return;
-            // }
-
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate);      
 
@@ -240,12 +236,16 @@ window.App.View = window.App.View || {};
         }
 
         var rotate = function () {
-            // if (step.rotate == 0) return;
-            $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
+            if (step.rotate.x == pastStep.rotate.x && step.rotate.y == pastStep.rotate.y && step.rotate.z == pastStep.rotate.z) {
+                nextCall(callback);
+                return;
+            }
+
+            $("#camera-move")[0].style.WebkitTransitionDuration = rotateDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssRotate(step.rotate, true) + cssTranslate(step.translate);
             setTimeout(function () {
                 nextCall(callback);    
-            }, zoomDuration);
+            }, rotateDuration);
         }
         //回调函数
         var callback = [

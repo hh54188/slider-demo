@@ -8,6 +8,7 @@ Config.ViewPort = {
     perspective: 1000,
     zoomDuration: 800,
     moveDuration: 1300,
+    rotateDuration: 1000,
     transitionDuration: 500,
     stepScale: 1
 }

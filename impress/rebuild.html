@@ -29,19 +29,22 @@
 <body>
 <div id="camera-zoom">
     <div id="camera-move">
-        <div id="step-1" class="step future" data-x="100" data-y="-100" data-scale="1">
+        <div id="step-1" class="step" data-x="100" data-y="-100" data-scale="1">
             <h1>X: 100, Y: -100</h1>
         </div>
-        <div id="step-2" class="step future" data-x="-300" data-y="-300" data-scale="1" data-rotatey="10" data-rotatex="-40">
+<!--         <div id="step-2" style="background:red;" class="step" data-x="100" data-y="-100" data-scale="0.3">
+            <h1>X: 100, Y: -100</h1>
+        </div>   -->  
+        <div id="step-3" class="step" data-x="-300" data-y="-300" data-scale="1" data-rotatey="10" data-rotatex="-40" data-rotatez="-10">
             <h1>X: -300, Y: -300</h1>
         </div>
-        <div id="step-3" class="step future" data-x="300" data-y="300" data-scale="0.5">
+        <div id="step-4" class="step" data-x="300" data-y="300" data-scale="0.5">
             <h1>X: 300, Y: 300</h1>
         </div>
-        <div id="step-4" class="step future" data-x="-500" data-y="100" data-scale="1">
+        <div id="step-5" class="step prev" data-x="-500" data-y="100" data-scale="1">
             <h1>X: -500, Y: 100</h1>
         </div>   
-        <div id="overview"></div>     
+        <div id="overview" class="step cur" data-x="0" data-y="0" data-scale="1"></div>     
     </div>
 </div>
 </body>
