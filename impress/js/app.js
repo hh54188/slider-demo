@@ -189,11 +189,18 @@ window.App.View = window.App.View || {};
 
         //step fn
         var zoomOut = function () {
+            console.log('zoomOut');
             //特殊处理overview
             if (pastIsOverview) {
                 nextCall(callback); 
                 return false;
             }
+
+            if (step.translate.x == pastStep.translate.x && step.translate.y == pastStep.translate.y) {
+                nextCall(callback);
+                return;
+            }
+
             //normal
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(pastStep.translate);                
@@ -204,6 +211,7 @@ window.App.View = window.App.View || {};
         }
 
         var move = function () {
+            console.log('move');
             if (step.translate.x == pastStep.translate.x && step.translate.y == pastStep.translate.y && step.translate.z == pastStep.translate.z) {
                 nextCall(callback);
                 return;
@@ -227,6 +235,7 @@ window.App.View = window.App.View || {};
         }
 
         var zoomIn = function () {
+            console.log('zoom in');
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssTranslate(step.translate);      
 
@@ -236,6 +245,7 @@ window.App.View = window.App.View || {};
         }
 
         var rotate = function () {
+            console.log('rotate');
             if (step.rotate.x == pastStep.rotate.x && step.rotate.y == pastStep.rotate.y && step.rotate.z == pastStep.rotate.z) {
                 nextCall(callback);
                 return;

@@ -25,7 +25,7 @@ body{
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
 }
 .step{
-    background:green;
+    background:rgba(0, 0, 0, 0.2);
     width:960px;
     height:600px;
     position: absolute;
