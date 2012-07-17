@@ -195,7 +195,7 @@ window.App.View = window.App.View || {};
                 return false;
             }
             //如果只在Z轴上移动
-            if (step.translate.x == pastStep.translate.x && step.translate.y == pastStep.translate.y) {
+            if (step.translate.x == pastStep.translate.x || step.translate.y == pastStep.translate.y) {
                 nextCall(callback);
                 return;
             }
@@ -222,7 +222,7 @@ window.App.View = window.App.View || {};
             }
 
             //如果只在Z轴上移动
-            if (step.translate.x == pastStep.translate.x && step.translate.y == pastStep.translate.y) {
+            if (step.translate.x == pastStep.translate.x || step.translate.y == pastStep.translate.y) {
                 nextCall(callback);
                 return;
             }            
