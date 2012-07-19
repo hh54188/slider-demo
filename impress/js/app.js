@@ -189,6 +189,10 @@ window.App.View = window.App.View || {};
 
         //step fn
         var zoomOut = function () {
+            //初始化不透明度
+            el.css('opacity', 1);
+            past.css('opacity', 0.3);
+
             //特殊处理overview
             if (pastIsOverview) {
                 nextCall(callback); 
@@ -200,9 +204,20 @@ window.App.View = window.App.View || {};
                 return;
             }
 
-            //normal
+            //如果只在平面上移动(普通幻灯片模式)
+            if ((step.translate.x == pastStep.translate.x || step.translate.y == pastStep.translate.y) && step.translate.z == pastStep.translate.z) {
+                nextCall(callback);
+                return;
+            }
+
+            //normal,为什么不能回到正常缩放模式
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(pastStep.translate);                
+            var temp_t = {
+                x: pastStep.translate.x,
+                y: pastStep.translate.y,
+                z: 0
+            }
+            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(temp_t);
 
             setTimeout(function () {
                 nextCall(callback);    
@@ -221,22 +236,38 @@ window.App.View = window.App.View || {};
                 return false;
             }
 
-            //如果只在Z轴上移动
-            if (step.translate.x == pastStep.translate.x || step.translate.y == pastStep.translate.y) {
+            //如果平面位置没有变
+            if (step.translate.x == pastStep.translate.x && step.translate.y == pastStep.translate.y) {
                 nextCall(callback);
                 return;
+            }
+
+            //如果只在平面上移动(普通幻灯片模式)
+            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale) {
+                scaleReview = step.scale;
             }            
 
 
             //normal
             $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(step.translate);   
+            var temp_t = {
+                x: step.translate.x,
+                y: step.translate.y,
+                z: 0,
+            }
+            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(temp_t);   
             setTimeout(function () {
                 nextCall(callback);    
             }, moveDuration);                           
         }
 
         var zoomIn = function () {
+            //如果已经在同一平面上，则不需要放大了(还需要优化)
+            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
+                nextCall(callback);
+                return;   
+            }
+
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
             $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) +  cssRotate(step.rotate, true) + cssTranslate(step.translate);      
 
@@ -245,20 +276,11 @@ window.App.View = window.App.View || {};
             }, zoomDuration);
         }
 
-        var rotate = function () {
-            $("#camera-move")[0].style.WebkitTransitionDuration = rotateDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) + cssRotate(step.rotate, true) + cssTranslate(step.translate);
-            setTimeout(function () {
-                nextCall(callback);    
-            }, rotateDuration);
-        }
         //回调函数
         var callback = [
             { 'flag': true, 'fn': zoomOut },
             { 'flag': false, 'fn': move },
             { 'flag': false, 'fn': zoomIn }
-            // { 'flag': false, 'fn': zoomIn },
-            // { 'flag': false, 'fn': rotate }
         ]
 
         var resetCall = function (que) {
@@ -266,6 +288,7 @@ window.App.View = window.App.View || {};
                     que[i].flag = false;
             }
             Config.isExecute = false;
+            console.log('action complete');
         }
 
         var nextCall = function (que) {
