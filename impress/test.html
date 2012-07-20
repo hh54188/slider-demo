@@ -11,7 +11,7 @@
         .slider {
             width: 960px;
             height: 400px;
-            background: green;
+            background: orange;
             margin: 0 auto;
             margin-top: 50px;
         }
@@ -21,16 +21,20 @@
             -webkit-box-align: center; /*start, end, center, vertical:孩子节点从哪个方向开始排列，与orient属性有关联*/
             -webkit-box-orient: vertical; /*还在的排列方向，是从上到下还是从坐到右*/                        
             -webkit-perspective: 200px;
+
+            width:80%;
+            height:100%;
         }
         .box {
             margin-top: 20px;
-            opacity: 0;
+            opacity: 1;
             -webkit-box-flex: 1;
             position: relative;
+            height:42px;
             -webkit-transform-style: preserve-3d;
             -webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
             -webkit-transform-origin: 50% 0%;
-            -webkit-transform: rotateX(-90deg);
+            -webkit-transform: rotateX(0deg);
         }
         .box h1 {
             padding: 5px;
@@ -59,8 +63,11 @@
             });
 
             $(document).click(function () {
-                $('.box')[0].style.webkitTransform = "rotateX(0deg)";
-                $('.box')[0].style.opacity = "1";
+                // $('.box')[0].style.webkitTransform = "rotateX(0deg)";
+                // $('.box')[0].style.opacity = "1";
+
+                // $('.box').style.webkitTransform = "rotateX(0deg)";
+                // $('.box').style.opacity = "1";                
             })
 
             $('.cur input').live('blur', function () {
@@ -94,6 +101,10 @@
                 <h1>Hello World 1</h1>
                 <input type="text" >
             </div>
+            <div class="box">
+                <h1>Hello World 1</h1>
+                <input type="text" >
+            </div>            
         </div>
     </div>
 </body>
