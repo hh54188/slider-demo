@@ -16,25 +16,32 @@
             margin-top: 50px;
         }
         .flex-wrap {
-            display: -webkit-box;
+            display: -webkit-flexbox;
             border: 1px solid black;
-            -webkit-box-align: center; /*start, end, center, vertical:孩子节点从哪个方向开始排列，与orient属性有关联*/
-            -webkit-box-orient: vertical; /*还在的排列方向，是从上到下还是从坐到右*/                        
+            -webkit-flex-pack: center;
+            -webkit-flex-align: center;
+            -webkit-flex-direction: column;
             -webkit-perspective: 200px;
 
             width:80%;
             height:100%;
         }
-        .box {
-            margin-top: 20px;
-            opacity: 1;
-            -webkit-box-flex: 1;
-            position: relative;
-            height:42px;
-            -webkit-transform-style: preserve-3d;
+        .transition {
             -webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
+        }
+        .box {            
+            position: relative;
+            /*-webkit-flex: 0;*/
+            -webkit-transform-style: preserve-3d;
+        }
+        .hide {
+            opacity: 0;            
             -webkit-transform-origin: 50% 0%;
-            -webkit-transform: rotateX(0deg);
+            -webkit-transform: rotateX(-90deg);
+        }
+        .show{
+            opacity: 1;
+            -webkit-transform: rotateX(0deg);            
         }
         .box h1 {
             padding: 5px;
@@ -50,35 +57,33 @@
             top: 0px;
             left: 0px;
         }
+        .cur{
+            width: 100%;
+        }
         input{
             display: block;
         }
     </style>
-    <script type="text/javascript">
-    
+    <script type="text/javascript">    
         $(function () {
+            $(document).click(function () {
+                var box = document.querySelector(".box");
+                $(box).addClass('show').removeClass('hide');
+            }); 
+
             $('.box').dblclick(function () {
-                $(this).addClass('cur');
+                $(this).addClass('cur').removeClass('transition');
                 enableEdit();
             });
 
-            $(document).click(function () {
-                // $('.box')[0].style.webkitTransform = "rotateX(0deg)";
-                // $('.box')[0].style.opacity = "1";
-
-                // $('.box').style.webkitTransform = "rotateX(0deg)";
-                // $('.box').style.opacity = "1";                
-            })
-
             $('.cur input').live('blur', function () {
                 displayEdit();
-                $('.cur').removeClass('cur');
+                $('.cur').removeClass('cur')
             })
 
             var enableEdit = function () {
                 var edit = $('.cur');
 
-                // edit.find('h1').hide();
                 edit.find('h1').css('opacity', 0);
                 var text = edit.find('h1').text();
                 edit.find('input').val(text).show().focus();
@@ -97,14 +102,18 @@
 <body>
     <div class="slider">
         <div class="flex-wrap">
-            <div class="box">
+            <div class="box transition hide">
                 <h1>Hello World 1</h1>
                 <input type="text" >
             </div>
-            <div class="box">
+            <div class="box transition hide">
                 <h1>Hello World 1</h1>
                 <input type="text" >
             </div>            
+            <div class="box transition hide">
+                <h1>Hello World 1</h1>
+                <input type="text" >
+            </div>
         </div>
     </div>
 </body>

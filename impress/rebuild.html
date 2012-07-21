@@ -5,12 +5,18 @@
     <script type="text/javascript" src="js/basic/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/showstep.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <script type="text/javascript">
         $(function () {
             App.View.initCanvas();
             App.View.initStep();
+
+            $(document).click(function () {
+                var text = document.querySelector(".text");
+                $(text).addClass('textShow').removeClass('textHide');
+            }); 
 
             //按键 
             $(document).keydown(function () {
@@ -30,22 +36,23 @@
 <div id="camera-zoom">
     <div id="camera-move">
         <div id="step-1" class="step" data-x="100" data-y="-100" data-scale="1">
-            <h1>X: 100, Y: -100</h1>
+            <h1 class="textTransition text textHide">This is h1 head</h1>
+            <h2 class="text">This is h2 head</h2>
         </div>
         <div id="step-7" class="step" data-x="300" data-y="-100" data-scale="1">
-            <h1>X: 100, Y: -100</h1>
+
         </div>
         <div id="step-2" style="background:red;" class="step" data-x="100" data-y="-100" data-z="-2700" data-scale="1" data-rotatez="60">
-            <h1>X: 100, Y: -100</h1>
+
         </div>    
         <div id="step-3" class="step" data-x="-300" data-y="-300" data-scale="1" data-rotatey="10" data-rotatex="-40" data-rotatez="-10">
-            <h1>X: -300, Y: -300</h1>
+
         </div>
         <div id="step-4" class="step" data-x="300" data-y="300" data-scale="0.5">
-            <h1>X: 300, Y: 300</h1>
+
         </div>
         <div id="step-5" class="step prev" data-x="-500" data-y="100" data-scale="1">
-            <h1>X: -500, Y: 100</h1>
+
         </div>   
         <div id="overview" class="step cur" data-x="0" data-y="0" data-scale="1"></div>     
     </div>
