@@ -19,7 +19,7 @@
                 // $(text).addClass('text-flip-x-show').removeClass('text-flip-x-hide');
                 // $(text).addClass('text-flip-y-show').removeClass('text-flip-y-hide');
                 // $(text).addClass('text-card-show').removeClass('text-card-hide');
-                $(text).addClass('text-flip-show').removeClass('text-flip-hide');
+                // $(text).addClass('text-flip-show').removeClass('text-flip-hide');
             }); 
 
             //按键 
@@ -40,11 +40,12 @@
 <div id="camera-zoom">
     <div id="camera-move">
         <div id="step-1" class="step" data-x="100" data-y="-100" data-scale="1">
-            <!-- <h1 class="text text-transition text-fly-hide">This is h1 head</h1> -->
-            <!-- <h1 class="text text-transition text-flip-x-hide">This is h2 head</h1> -->
-            <!-- <h1 class="text text-transition text-flip-y-hide">This is h3 head</h1> -->
-            <!-- <h1 class="text text-transition text-card-hide">This is h3 head</h1> -->
-            <h1 class="text text-transition text-flip-hide">This is h3 head</h1>
+            <h1 class="text text-transition" data-index="0">Sorry, no effect yet</h1>
+            <h1 class="text text-transition" data-index="1" data-effect="fly">I'm fly in!</h1>
+            <h1 class="text text-transition" data-index="2" data-effect="flip-x">This is h2 head</h1>
+            <h1 class="text text-transition" data-index="3" data-effect="flip-y">This is h3 head</h1>
+            <h1 class="text text-transition" data-index="4" data-effect="card">This is h3 head</h1>
+            <h1 class="text text-transition" data-index="5" data-effect="flip">This is h3 head</h1>
         </div>
         <div id="step-7" class="step" data-x="300" data-y="-100" data-scale="1">
 
