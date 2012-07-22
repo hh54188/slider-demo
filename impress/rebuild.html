@@ -15,7 +15,11 @@
 
             $(document).click(function () {
                 var text = document.querySelector(".text");
-                $(text).addClass('textShow').removeClass('textHide');
+                // $(text).addClass('text-fly-show').removeClass('text-fly-hide');
+                // $(text).addClass('text-flip-x-show').removeClass('text-flip-x-hide');
+                // $(text).addClass('text-flip-y-show').removeClass('text-flip-y-hide');
+                // $(text).addClass('text-card-show').removeClass('text-card-hide');
+                $(text).addClass('text-flip-show').removeClass('text-flip-hide');
             }); 
 
             //按键 
@@ -36,13 +40,16 @@
 <div id="camera-zoom">
     <div id="camera-move">
         <div id="step-1" class="step" data-x="100" data-y="-100" data-scale="1">
-            <h1 class="textTransition text textHide">This is h1 head</h1>
-            <h2 class="text">This is h2 head</h2>
+            <!-- <h1 class="text text-transition text-fly-hide">This is h1 head</h1> -->
+            <!-- <h1 class="text text-transition text-flip-x-hide">This is h2 head</h1> -->
+            <!-- <h1 class="text text-transition text-flip-y-hide">This is h3 head</h1> -->
+            <!-- <h1 class="text text-transition text-card-hide">This is h3 head</h1> -->
+            <h1 class="text text-transition text-flip-hide">This is h3 head</h1>
         </div>
         <div id="step-7" class="step" data-x="300" data-y="-100" data-scale="1">
 
         </div>
-        <div id="step-2" style="background:red;" class="step" data-x="100" data-y="-100" data-z="-2700" data-scale="1" data-rotatez="60">
+        <div id="step-2" style="background:red;" class="step" data-x="100" data-y="-100" data-z="-3500" data-scale="1" data-rotatez="60">
 
         </div>    
         <div id="step-3" class="step" data-x="-300" data-y="-300" data-scale="1" data-rotatey="10" data-rotatex="-40" data-rotatez="-10">

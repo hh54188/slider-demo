@@ -48,23 +48,72 @@ body{
 }
 
 
-/**/
+/*text effect*/
 .text{
-    -webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
     -webkit-transform-style: preserve-3d;    
 }
 
-.textTransition{
-    /*-webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;*/
+.text-transition{
+    -webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
 }
 
-.textHide{
+/*fly*/
+.text-fly-hide{
     opacity: 0;            
-    -webkit-transform-origin: 50% 0%;
-    -webkit-transform: rotateX(-90deg);
+    -webkit-transform-origin: 50% 50% 50px;
+    -webkit-transform: rotateX(-180deg );
 }
 
-.textShow{
+.text-fly-show{
     opacity: 1;            
-    -webkit-transform: rotateX(0deg);   
+    -webkit-transform-origin: 50% 50% 50px;
+    -webkit-transform: translateZ(0px); 
+}
+/*flip*/
+.text-flip-hide{
+    opacity: 0;
+    -webkit-transform-origin: 0% 0%;
+    -webkit-transform: rotateX(80deg );
+    
+}
+.text-flip-show{
+    opacity: 1;
+    -webkit-transform-origin: 0% 0%;
+    -webkit-transform: translateZ(0px);
+}
+
+/*flip x*/
+.text-flip-x-hide{
+    opacity: 0;            
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: rotateX(-180deg );
+}
+.text-flip-x-show{
+     opacity: 1;            
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: rotateX(0deg );   
+}
+
+/*flip y*/
+.text-flip-y-hide{
+    opacity: 0;            
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: rotateY(-180deg );
+}
+.text-flip-y-show{
+     opacity: 1;            
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: rotateY(0deg );   
+}
+
+/*card*/
+.text-card-hide{
+    opacity: 0;            
+    -webkit-transform-origin: 100% 50%;
+     -webkit-transform: translate3d( 0, 100px, 100px ) rotateX(90deg );
+}
+.text-card-show{
+    opacity: 1;            
+    -webkit-transform-origin: 100% 50%;
+    -webkit-transform: translateZ(0px); 
 }

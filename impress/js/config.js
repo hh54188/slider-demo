@@ -1,9 +1,9 @@
 window.Config = window.Config || {};
 
 Config.ViewPort = {
-    width: 1280,
-    height: 800,
-    maxScale: 1.2,
+    width: 1120,
+    height: 700, 
+    maxScale: 1.5,
     minScale: 0,
     perspective: 1000,
     zoomDuration: 1500,
