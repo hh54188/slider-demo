@@ -28,3 +28,8 @@ Config.StepView = {
 Config.isExecute = false;
 
 Config.curStep ={}
+
+Config.stepIndex = {
+    cur:0,
+    max:0
+}

@@ -1,5 +1,6 @@
 window.App = window.App || {};
 window.App.View = window.App.View || {};
+window.App.Text = window.App.Text || {};
 
 (function (global) {
 	var toNumber = function (val, def) {
@@ -138,13 +139,6 @@ window.App.View = window.App.View || {};
 		var stepCount = steps.length;
 		var width = Config.StepView.width;
 		var height = Config.StepView.height;
-        var initTextEffect = function (wrap) {
-            var $texts = wrap.find('.text');
-            $texts.each(function () {
-                var effect = $(this).data('effect');
-                $(this).addClass('text-' + effect + '-hide');
-            })
-        }
 
 		steps.each(function () {
 			$(this).css({
@@ -160,9 +154,6 @@ window.App.View = window.App.View || {};
         	Config.StepView.scale = eachScale;
 
         	cssStep($(this), collectStepData($(this)));
-
-            //inner text effect;
-            initTextEffect($(this));
 		})
 	}
 
