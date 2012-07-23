@@ -31,25 +31,26 @@ window.App.View = window.App.View || {};
 		}
 	};
 
-	global.findMaxIndex = function (wrap) {
+	global.initText = function (wrap) {
 		//reset init index
 		Config.stepIndex.cur = 0;
 
 		var $texts = wrap.find('.text');
 		var max = 0;
 		$texts.each(function () {
-			var index = $(this).data('index');
 			//init effect
 			var effect = $(this).data('effect');
 			if (effect) {
 				$(this).addClass('text-' + effect + '-hide');	
 			}
-            
-			if (index > max) { 
-				max = index;
-			}
+            var index = $(this).data('index');
+            if (index) {
+				if (index > max) { 
+					max = index;
+				}            	
+            }
 		});
 
 		Config.stepIndex.max = max;
-	}
+	};
 })(App.Text);

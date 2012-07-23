@@ -168,8 +168,10 @@ window.App.Text = window.App.Text || {};
     }
 
 	global.setStep = function (el, past) {
+        App.Text.initText(el);
         // App.Text.findMaxIndex(el);
         // App.Text.nextTextIndex(el, Config.stepIndex.cur);
+        
         //set flag
         Config.isExecute = true;
         //overview作特殊处理
