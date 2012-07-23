@@ -25,6 +25,7 @@
             //按键 
             $(document).keydown(function () {
                 if (Config.isExecute) return;
+                // App.View.go();
                 var steps = App.View.getNextStep();
                 App.View.setStep(steps.cur, steps.prev); 
             })

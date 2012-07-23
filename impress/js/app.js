@@ -156,8 +156,20 @@ window.App.Text = window.App.Text || {};
         	cssStep($(this), collectStepData($(this)));
 		})
 	}
+    global.go = function () {
+        if ($('.cur').next().length == 0) {
+            var steps = this.getNextStep();
+            this.setStep(steps.cur, steps.prev); 
+        } else {
+            var steps = this.getNextStep();
+            this.setStep(steps.cur, steps.prev); 
+            App.Text.nextTextIndex(el, Config.stepIndex.cur);
+        }
+    }
 
 	global.setStep = function (el, past) {
+        // App.Text.findMaxIndex(el);
+        // App.Text.nextTextIndex(el, Config.stepIndex.cur);
         //set flag
         Config.isExecute = true;
         //overview作特殊处理
