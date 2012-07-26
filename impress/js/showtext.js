@@ -12,45 +12,14 @@ window.App.View = window.App.View || {};
 		})
 	};
 
-	global.nextTextIndex = function (wrap, cur) {
-		var cur = cur +1;
-		var max = Config.stepIndex.max;
-		//如果已经超过最大
-		if (cur > max) {
-			var steps = App.View.getNextStep();
-            App.View.setStep(steps.cur, steps.prev); 
-			return;
-		}
-		//如果这一级没有,递归查找
-		var $texts = wrap.find('.text[data-index="' + cur + '"]');
-		if ($texts.length == 0) {
-			this.nextTextIndex(wrap, cur);
-		} else {
-			Config.stepIndex.cur = cur;
-			this.showTextByIndex(wrap, cur);
-		}
-	};
-
 	global.initText = function (wrap) {
-		//reset init index
-		Config.stepIndex.cur = 0;
-
 		var $texts = wrap.find('.text');
-		var max = 0;
 		$texts.each(function () {
 			//init effect
 			var effect = $(this).data('effect');
 			if (effect) {
 				$(this).addClass('text-' + effect + '-hide');	
 			}
-            var index = $(this).data('index');
-            if (index) {
-				if (index > max) { 
-					max = index;
-				}            	
-            }
 		});
-
-		Config.stepIndex.max = max;
 	};
 })(App.Text);

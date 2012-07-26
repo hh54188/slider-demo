@@ -6,30 +6,17 @@
     <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/showtext.js"></script>
+    <script type="text/javascript" src="js/showstep.js"></script>
     <script type="text/javascript" src="js/manage.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <script type="text/javascript">
         $(function () {
             App.View.initCanvas();
             App.View.initStep();
 
-            $(document).click(function () {
-                var text = document.querySelector(".text");
-                // $(text).addClass('text-fly-show').removeClass('text-fly-hide');
-                // $(text).addClass('text-flip-x-show').removeClass('text-flip-x-hide');
-                // $(text).addClass('text-flip-y-show').removeClass('text-flip-y-hide');
-                // $(text).addClass('text-card-show').removeClass('text-card-hide');
-                // $(text).addClass('text-flip-show').removeClass('text-flip-hide');
-            }); 
-
             //按键 
             $(document).keydown(function () {
-                if (Config.isExecute) return;
-                App.Manage.go();
-
-                // var steps = App.View.getNextStep();
-                // App.View.setStep(steps.cur, steps.prev); 
+                App.Manage.go(); 
             })
 
             //重置窗口
