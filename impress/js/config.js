@@ -25,11 +25,11 @@ Config.StepView = {
 	scale: 1
 }
 
-Config.isExecute = false;
+Config.keyMap = {
+    go: [32],
+    nextStep: [39],
+    prevStep: [37],
+    overview: [27]
+}
 
 Config.curStep ={}
-
-Config.stepIndex = {
-    cur:0,
-    max:0
-}

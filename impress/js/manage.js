@@ -12,8 +12,73 @@ window.App.Text = window.App.Text || {};
 		}
 	}
 
-	global.setCfgProp = function (prop, val) {
-		prop = val;
+	global.keyMap = function (code) {
+		if (this.config.isExecute) {
+			console.log('under execute!');
+			return;
+		}
+
+		this.enableExecute();
+		var cfg = Config.keyMap;
+		for (var i in cfg) {
+			var temp = cfg[i];
+			for (var j = 0; j <temp.length; j++) {
+				if (temp[j] == code) {
+					switch (i) {
+						case "go": this.go(); break;
+						case "nextStep": this.goNext(); break;
+						case "prevStep": this.goPrev(); break;
+						case "overview": this.thumb(); break;
+					}
+				}
+			}
+		}
+	}
+
+	global.thumb = function () {
+		var past = [];
+		var future = [];		
+
+		var cur = $('.cur');
+		while (cur.prev().length != 0) {
+			var temp = cur.prev();
+			past.push(temp);
+			cur = temp;			
+		}
+
+		var cur = $('.cur');
+		while (cur.next().length != 0) {
+			var temp = cur.next();
+			future.push(temp);
+			cur = temp;
+		}
+
+        $('.cur')[0].style.WebkitTransform = 'translateZ(-1000px) translate(0%, -37%)';
+        $('.cur').addClass('thumb');
+        $('#camera-zoom')[0].style.WebkitTransform = 'translate(0%, 27%) translateZ(-250px)';		
+
+        var count = 0;
+        for (var i = past.length - 1; i >= 0 ; i--) {
+            count++;
+            past[i][0].style.WebkitTransform = 'translateZ(-2500px) translate(-' + (80 + 20*count)  + '%, -50%) rotateY(75deg)';
+            if (count <= 5) {
+                $(past[i][0]).addClass('thumb');    
+            } else {
+                $(past[i][0]).removeClass('thumb');
+            }
+            
+        }
+
+        for (var j = 0; j < future.length; j++) {
+            future[j][0].style.WebkitTransform = 'translateZ(-2500px) translate(' + (80 + 20*(j + 1))  + '%, -50%) rotateY(-75deg)';
+            if ((j + 1) <= 5) {
+                $(future[j][0]).addClass('thumb');    
+            } else {
+                $(future[j][0]).removeClass('thumb');
+            }
+        }
+
+		this.disableExecute();
 	}
 
 	global.enableExecute = function () {
@@ -25,7 +90,6 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.go = function () {
-		this.enableExecute();
 		var cur = this.config.stepIndex.cur;
 		var max = this.config.stepIndex.max;		
 
@@ -48,9 +112,24 @@ window.App.Text = window.App.Text || {};
 				App.Text.showTextByIndex($('.cur'), this.config.stepIndex.cur);
 			}
 		}
-
-		this.disableExecute();
 	}
+
+	global.goNext = function () {
+		var steps = this.getNextStep();
+		App.Text.initText(steps.cur);
+		this.setStepIndex(steps.cur);
+		App.View.setStep(steps.cur, steps.prev);
+
+	}
+
+	global.goPrev = function () {
+		var steps = this.getPrevStep();
+		App.Text.initText(steps.cur);
+		this.setStepIndex(steps.cur);
+		App.View.setStep(steps.cur, steps.prev);
+	}
+
+
 
 	global.setStepIndex = function (wrap) {
 		var cur = this.config.stepIndex.cur;
@@ -69,9 +148,6 @@ window.App.Text = window.App.Text || {};
 				}            	
             }
 		});		
-
-		console.log('inner cur: %s max: %s', cur, max);
-		console.log('really cur: %s max: %s', this.config.stepIndex.cur, this.config.stepIndex.max);
 	}
 
 	global.getNextTextIndex = function (wrap) {
@@ -89,9 +165,60 @@ window.App.Text = window.App.Text || {};
 		}
 	}
 
+	global.getPrevStep = function () {
+		var $steps = {};
+		var steps = {};
+		//转化模式
+		if ($('.cur').prev().length != 0 && $('.cur').prev().hasClass('prev') || $('.cur').prev().length == 0 && $('.step:last').hasClass('prev')) {
+    		var temp = $('.prev');
+    		$('.cur').removeClass('cur').addClass('prev');
+    		temp.removeClass('prev').addClass('cur');
+    		steps = {
+            	"cur": $('.cur'),
+            	"prev": $('.prev')
+        	}
+        	return steps;
+		}
+
+		if ($('.cur').prev().length == 0) {
+            $('.prev').removeClass('prev');
+            $('.cur').removeClass('cur');			
+
+            $('.step:first').addClass('prev');
+            $('.step:last').addClass('cur');            
+		} else {
+            var temp = $('.cur');
+            $('.prev').removeClass('prev');
+            $('.cur').removeClass('cur');
+
+            temp.prev().addClass('cur');
+            temp.addClass('prev');            			
+		}
+
+        steps = {
+            "cur": $('.cur'),
+            "prev": $('.prev')
+        }
+
+
+        return steps;		
+
+	}
+
     global.getNextStep = function () {
         var $steps = $('.step');
         var steps = {};
+        //转化模式
+        if ($('.cur').prev().length != 0 && !$('.cur').prev().hasClass('prev') || $('.cur').prev().length == 0 && $('.cur').next().hasClass('prev')) {
+    		var temp = $('.prev');
+    		$('.cur').removeClass('cur').addClass('prev');
+    		temp.removeClass('prev').addClass('cur');
+    		steps = {
+            	"cur": $('.cur'),
+            	"prev": $('.prev')
+        	}
+        	return steps;
+        }
 
         //如果还没有开始阅读
         if ($('.cur').next().length == 0) {

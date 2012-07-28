@@ -1,5 +1,6 @@
 window.App = window.App || {};
 window.App.View = window.App.View || {};
+window.App.Manage = window.App.Manage || {};
 
 (function (global) {
 	var toNumber = function (val, def) {
@@ -134,6 +135,8 @@ window.App.View = window.App.View || {};
         //overview作特殊处理
         if (el.prop('id') == "overview") {
             $("#camera-move")[0].style.WebkitTransform = "";
+            App.Manage.disableExecute();
+            console.log('action complete');
             return;
         }
 
@@ -258,6 +261,7 @@ window.App.View = window.App.View || {};
             for (var i = 1; i < que.length; i++) {
                     que[i].flag = false;
             }
+            App.Manage.disableExecute();
             console.log('action complete');
         }
 

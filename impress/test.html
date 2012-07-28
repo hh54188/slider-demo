@@ -8,6 +8,28 @@
     <script type="text/javascript" src="js/basic/backbone-min.js"></script>
     <style type="text/css">
         *{margin: 0; padding: 0;}
+/*        @font-face {
+            font-family: "Jellyka Delicious Cake"; 
+            src: url(fonts/Jellyka Delicious Cake.ttf);
+        }*/
+        @font-face {
+            font-family: "merit2"; 
+            src: url(merit2.ttf);
+        }
+        @font-face {
+            font-family: "OptimusPrincepsSemiBold"; 
+            src: url(OptimusPrincepsSemiBold.ttf);
+        }       
+/*        .style1 {
+            font-family: "Jellyka Delicious Cake"; 
+        }*/ 
+        .style2 {
+            font-family: "merit2";
+        }
+        .style3 {
+            font-family: "OptimusPrincepsSemiBold"; 
+        }
+
         .slider {
             width: 960px;
             height: 400px;
@@ -44,8 +66,9 @@
             -webkit-transform-origin: 50% 0%;            
             -webkit-transform: rotateX(0deg);            
         }
-        .box h1 {
+        h1 {
             padding: 5px;
+            margin: 10px 0;
         }
         .box input {
             background: rgba(255, 255, 255, 0.5);
@@ -103,18 +126,9 @@
 <body>
     <div class="slider">
         <div class="flex-wrap">
-            <div class="box transition hide">
-                <h1>Hello World 1</h1>
-                <!-- <input type="text" > -->
-            </div>
-            <div class="box transition hide">
-                <h1>Hello World 1</h1>
-                <input type="text" >
-            </div>            
-            <div class="box transition hide">
-                <h1>Hello World 1</h1>
-                <input type="text" >
-            </div>
+                <h1 class="style2">Hello World 1</h1>
+                <h1 class="style2">Hello World 1</h1>
+                <h1 class="style3">Hello World 1</h1>
         </div>
     </div>
 </body>
