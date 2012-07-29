@@ -50,6 +50,10 @@ window.App.Text = window.App.Text || {};
 	global.enableThumb = function () {
 		var past = [];
 		var future = [];		
+		//如果现在是overview,则跳到下一步
+		if ($('.cur').prop('id') == "overview") {
+			this.getNextStep();	
+		}
 
 		var cur = $('.cur');
 		while (cur.prev().length != 0) {
@@ -68,13 +72,13 @@ window.App.Text = window.App.Text || {};
 
 		App.View.initCanvas();
 		$('#camera-move')[0].style.WebkitTransform = "";
-        $('.cur')[0].style.WebkitTransform = 'translateZ(-1000px) translate(0%, -37%)';
+        $('.cur')[0].style.WebkitTransform = 'translateZ(-1000px) translate(0%, 0%)';
         $('.cur').addClass('thumb');
 
         var count = 0;
         for (var i = past.length - 1; i >= 0 ; i--) {
             count++;
-            past[i][0].style.WebkitTransform = 'translateZ(-2500px) translate(-' + (80 + 20*count)  + '%, -50%) rotateY(75deg)';
+            past[i][0].style.WebkitTransform = 'translateZ(-2500px) translate(-' + (80 + 20*count)  + '%, 0%) rotateY(75deg)';
             if (count <= 5) {
                 past[i].addClass('thumb');    
             } else {
@@ -84,7 +88,7 @@ window.App.Text = window.App.Text || {};
         }
 
         for (var j = 0; j < future.length; j++) {
-            future[j][0].style.WebkitTransform = 'translateZ(-2500px) translate(' + (80 + 20*(j + 1))  + '%, -50%) rotateY(-75deg)';
+            future[j][0].style.WebkitTransform = 'translateZ(-2500px) translate(' + (80 + 20*(j + 1))  + '%, 0%) rotateY(-75deg)';
             if ((j + 1) <= 5) {
                 future[j].addClass('thumb');    
             } else {
@@ -99,9 +103,10 @@ window.App.Text = window.App.Text || {};
 		$('.step').removeClass('thumb');
         App.View.initCanvas();
         App.View.initStep();	
-        App.View.setStep($('.cur'), $('.prev'));
-
-        this.disableExecute();
+        
+        App.Text.initText($('.cur'));
+		this.setStepIndex($('.cur'));
+        App.View.setSimpleStep($('.cur'));
 	}
 
 	global.enableExecute = function () {

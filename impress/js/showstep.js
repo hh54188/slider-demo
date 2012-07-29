@@ -130,6 +130,23 @@ window.App.Manage = window.App.Manage || {};
 		})
 	}
 
+    global.showStep = function () {
+        $('.cur').css('opacity', 1);
+        $('.perv').css('opacity', 0.3);
+    }
+
+    global.setSimpleStep = function (el) {
+        var step = collectCanvasData(el);
+        var zoomDuration = parseInt(Config.ViewPort.zoomDuration);
+        this.showStep();
+        $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
+        $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) +  cssRotate(step.rotate, true) + cssTranslate(step.translate);      
+
+        setTimeout(function () {
+            App.Manage.disableExecute();    
+        }, zoomDuration);
+    }
+
 	global.setStep = function (el, past) {
         //overview作特殊处理
         if (el.prop('id') == "overview") {
@@ -163,8 +180,10 @@ window.App.Manage = window.App.Manage || {};
         //step fn
         var zoomOut = function () {
             //初始化不透明度
-            el.css('opacity', 1);
-            past.css('opacity', 0.3);
+            //show slider
+            global.showStep();
+            // el.css('opacity', 1);
+            // past.css('opacity', 0.3);
 
             //特殊处理overview
             if (pastIsOverview) {

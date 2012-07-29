@@ -86,6 +86,9 @@ body{
     background: rgba(0, 0, 0, 0.1);
     opacity: 1;
 }
+.thumb.text{
+    opacity: 1;
+}
 
 #overview{
     display: none;
