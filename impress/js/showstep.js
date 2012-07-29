@@ -113,12 +113,11 @@ window.App.Manage = window.App.Manage || {};
 		var stepCount = steps.length;
 		var width = Config.StepView.width;
 		var height = Config.StepView.height;
-
 		steps.each(function () {
-			$(this).css({
-            	'top': "-=" + (height / 2) + "px",
-            	'left': "-=" + (width / 2) + "px"
-        	})
+            $(this).css({
+                'top': "-" + (height / 2) + "px",
+                'left': "-" + (width / 2) + "px"
+            })            
         	var minCanvasWidth =  Config.ViewPort.width > Config.ViewPort.height ? Config.ViewPort.height : Config.ViewPort.width;
         	var maxStepWidth =  Config.StepView.width > Config.StepView.height ? Config.StepView.width : Config.StepView.height;
 

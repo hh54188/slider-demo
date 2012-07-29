@@ -9,7 +9,8 @@ window.App.Text = window.App.Text || {};
 		'stepIndex': {
 			'cur': 0,
 			'max': 0
-		}
+		},
+		'isThumb': false
 	}
 
 	global.keyMap = function (code) {
@@ -28,14 +29,25 @@ window.App.Text = window.App.Text || {};
 						case "go": this.go(); break;
 						case "nextStep": this.goNext(); break;
 						case "prevStep": this.goPrev(); break;
-						case "overview": this.thumb(); break;
+						case "overview": this.thumbToggle(); break;
+						default: this.disableExecute();break;
 					}
 				}
 			}
 		}
 	}
 
-	global.thumb = function () {
+	global.thumbToggle = function () {
+		if (!this.config.isThumb) {
+			this.enableThumb();
+			this.config.isThumb = true;
+		} else {
+			this.disableThumb();
+			this.config.isThumb = false;			
+		}
+	}
+
+	global.enableThumb = function () {
 		var past = [];
 		var future = [];		
 
@@ -45,6 +57,7 @@ window.App.Text = window.App.Text || {};
 			past.push(temp);
 			cur = temp;			
 		}
+		past = past.reverse();
 
 		var cur = $('.cur');
 		while (cur.next().length != 0) {
@@ -53,18 +66,19 @@ window.App.Text = window.App.Text || {};
 			cur = temp;
 		}
 
+		App.View.initCanvas();
+		$('#camera-move')[0].style.WebkitTransform = "";
         $('.cur')[0].style.WebkitTransform = 'translateZ(-1000px) translate(0%, -37%)';
         $('.cur').addClass('thumb');
-        $('#camera-zoom')[0].style.WebkitTransform = 'translate(0%, 27%) translateZ(-250px)';		
 
         var count = 0;
         for (var i = past.length - 1; i >= 0 ; i--) {
             count++;
             past[i][0].style.WebkitTransform = 'translateZ(-2500px) translate(-' + (80 + 20*count)  + '%, -50%) rotateY(75deg)';
             if (count <= 5) {
-                $(past[i][0]).addClass('thumb');    
+                past[i].addClass('thumb');    
             } else {
-                $(past[i][0]).removeClass('thumb');
+                past[i].removeClass('thumb');
             }
             
         }
@@ -72,20 +86,31 @@ window.App.Text = window.App.Text || {};
         for (var j = 0; j < future.length; j++) {
             future[j][0].style.WebkitTransform = 'translateZ(-2500px) translate(' + (80 + 20*(j + 1))  + '%, -50%) rotateY(-75deg)';
             if ((j + 1) <= 5) {
-                $(future[j][0]).addClass('thumb');    
+                future[j].addClass('thumb');    
             } else {
-                $(future[j][0]).removeClass('thumb');
+                future[j].removeClass('thumb');
             }
         }
 
 		this.disableExecute();
 	}
 
+	global.disableThumb = function () {
+		$('.step').removeClass('thumb');
+        App.View.initCanvas();
+        App.View.initStep();	
+        App.View.setStep($('.cur'), $('.prev'));
+
+        this.disableExecute();
+	}
+
 	global.enableExecute = function () {
+		console.log('enable execute');
 		this.config.isExecute = true;
 	}
 
 	global.disableExecute = function () {
+		console.log('disable execute');
 		this.config.isExecute = false;
 	}
 
@@ -115,18 +140,29 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.goNext = function () {
-		var steps = this.getNextStep();
-		App.Text.initText(steps.cur);
-		this.setStepIndex(steps.cur);
-		App.View.setStep(steps.cur, steps.prev);
-
+		//如果不是略缩图状态
+		if (!this.config.isThumb) {
+			var steps = this.getNextStep();
+			App.Text.initText(steps.cur);
+			this.setStepIndex(steps.cur);
+			App.View.setStep(steps.cur, steps.prev);
+		} else {
+			var steps = this.getNextStep();
+			this.enableThumb();
+		}
 	}
 
 	global.goPrev = function () {
-		var steps = this.getPrevStep();
-		App.Text.initText(steps.cur);
-		this.setStepIndex(steps.cur);
-		App.View.setStep(steps.cur, steps.prev);
+		//如果不是略缩图状态
+		if (!this.config.isThumb) {
+			var steps = this.getPrevStep();
+			App.Text.initText(steps.cur);
+			this.setStepIndex(steps.cur);
+			App.View.setStep(steps.cur, steps.prev);
+		} else {
+			var steps = this.getPrevStep();
+			this.enableThumb();
+		}
 	}
 
 
