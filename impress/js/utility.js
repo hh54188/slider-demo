@@ -66,7 +66,7 @@ window.App.Utility = window.App.Utility || {};
                 x: this.toNumber(dataSet.rotatex, Config.StepView.rotateX) * (-1),
                 y: this.toNumber(dataSet.rotatey, Config.StepView.rotateY) * (-1),
                 z: this.toNumber(dataSet.rotatez, Config.StepView.rotateZ) * (-1)
-            },
+            },            
             scale: 1 / (Config.StepView.scale * dataSet.scale)
     	}
 

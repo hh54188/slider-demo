@@ -36,6 +36,10 @@ window.App.Text = window.App.Text || {};
 			console.log('under execute!');
 			return;
 		}
+		//在预览模式下，不允许空格键
+		if (this.config.isThumb) {
+
+		}
 
 		this.enableExecute();
 		var cfg = Config.keyMap;
@@ -66,6 +70,8 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.enableThumb = function () {
+		App.Text.resetFocus();
+		
 		var past = [];
 		var future = [];		
 		//如果现在是overview,则跳到下一步
@@ -302,5 +308,19 @@ window.App.Text = window.App.Text || {};
 
         return steps;
     }	
+
+    global.bindTextClick = function () {
+    	$('.text').live('click', function () {
+    		console.log('click');
+    		App.Text.resetFocus();
+    		App.Text.focusText($(this));
+    	})
+    }
+
+    global.bindResetClick = function () {
+    	$('.focus').live('click', function () {
+    		App.Text.resetFocus();
+    	})
+    }
 
 })(App.Manage)

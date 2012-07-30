@@ -8,7 +8,6 @@ window.App.Utility = window.App.Utility || {};
 	global.showTextByIndex = function (wrap, index) {
 		var $texts = wrap.find('.text[data-index="' + index + '"]:not(.readed)');
 
-
 		if ($texts.length == 0) {
 			App.Manage.disableExecute();
 			return;
@@ -36,7 +35,22 @@ window.App.Utility = window.App.Utility || {};
 			}
 
 			var step = App.Utility.collectCanvasData($(this));
-            $(this)[0].style.WebkitTransform = App.Utility.cssRotate(step.rotate);  
+			console.log('step', step)
+            $(this)[0].style.WebkitTransform =  App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);  
 		});
 	};
+
+	global.focusText = function (el) {
+		el[0].style.WebkitTransform = "";
+		el.addClass('focus');
+        $('.cur .text:not(.focus)').addClass('blur');
+	}
+
+	global.resetFocus = function () {
+		if ($('.focus').length == 0) return;
+		var step = App.Utility.collectCanvasData($('.focus'));
+        $('.focus')[0].style.WebkitTransform =  App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);
+		$('.focus').removeClass('focus');
+        $('.blur').removeClass('blur');
+	}
 })(App.Text);
