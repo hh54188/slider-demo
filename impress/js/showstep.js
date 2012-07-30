@@ -1,79 +1,9 @@
 window.App = window.App || {};
 window.App.View = window.App.View || {};
 window.App.Manage = window.App.Manage || {};
+window.App.Utility = window.App.Utility || {};
 
 (function (global) {
-	var toNumber = function (val, def) {
-		return isNaN(val)?def: val;
-	}
-
-	var calculateScale = function (def, val) {
-		if (val == undefined) {
-			return def
-		} else {
-			return val * def;
-		}
-		
-	}
-
-    var cssTranslate = function ( t ) {
-        return " translate3d(" + t.x + "px," + t.y + "px," + t.z + "px) ";
-    }
-
-    var cssRotate = function ( r, revert ) {
-        var rX = " rotateX(" + r.x + "deg) ",
-            rY = " rotateY(" + r.y + "deg) ",
-            rZ = " rotateZ(" + r.z + "deg) ";
-
-        return revert ? rZ+rY+rX : rX+rY+rZ;
-    };
-
-    var cssScale = function ( s ) {
-        return " scale(" + s + ") ";
-    };
-
-    var cssStep = function (el, step) {
-    	el[0].style.WebkitTransform = cssTranslate(step.translate) + cssRotate(step.rotate, false) + cssScale(step.scale);
-    }
-
-    var collectStepData = function (el) {
-    	var dataSet = el.data();
-	    var step = {
-            translate: {
-                x: toNumber(dataSet.x, Config.StepView.x),
-                y: toNumber(dataSet.y, Config.StepView.y),
-                z: toNumber(dataSet.z, Config.StepView.z)
-            },
-            rotate: {
-                x: toNumber(dataSet.rotatex, Config.StepView.rotateX),
-                y: toNumber(dataSet.rotatey, Config.StepView.rotateY),
-                z: toNumber(dataSet.rotatez, Config.StepView.rotateZ)
-            },
-            scale: calculateScale(Config.StepView.scale, dataSet.scale)
-    	}
-
-    	return step;
-    }
-
-    var collectCanvasData = function (el) {
-    	var dataSet = el.data();
-	    var step = {
-            translate: {
-                x: toNumber(dataSet.x, Config.StepView.x) * (-1),
-                y: toNumber(dataSet.y, Config.StepView.y) * (-1),
-                z: toNumber(dataSet.z, Config.StepView.z) * (-1)
-            },
-            rotate: {
-                x: toNumber(dataSet.rotatex, Config.StepView.rotateX) * (-1),
-                y: toNumber(dataSet.rotatey, Config.StepView.rotateY) * (-1),
-                z: toNumber(dataSet.rotatez, Config.StepView.rotateZ) * (-1)
-            },
-            scale: 1 / (Config.StepView.scale * dataSet.scale)
-    	}
-
-    	return step;
-    }
-
 	global.computeWindowScale = function (config) {
 	    var hScale = window.innerHeight / config.height;
         var wScale = window.innerWidth / config.width;
@@ -126,7 +56,7 @@ window.App.Manage = window.App.Manage || {};
 
         	Config.StepView.scale = eachScale;
 
-        	cssStep($(this), collectStepData($(this)));
+        	App.Utility.cssStep($(this), App.Utility.collectStepData($(this)));
 		})
 	}
 
@@ -136,11 +66,11 @@ window.App.Manage = window.App.Manage || {};
     }
 
     global.setSimpleStep = function (el) {
-        var step = collectCanvasData(el);
+        var step = App.Utility.collectCanvasData(el);
         var zoomDuration = parseInt(Config.ViewPort.zoomDuration);
         this.showStep();
         $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-        $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) +  cssRotate(step.rotate, true) + cssTranslate(step.translate);      
+        $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);      
 
         setTimeout(function () {
             App.Manage.disableExecute();    
@@ -162,9 +92,9 @@ window.App.Manage = window.App.Manage || {};
         }
 
         //目的地址信息
-        var step = collectCanvasData(el);
+        var step = App.Utility.collectCanvasData(el);
         //当前地址信息
-        var pastStep = collectCanvasData(past);
+        var pastStep = App.Utility.collectCanvasData(past);
 
         var viewPortScale = parseFloat(Config.ViewPort.stepScale);
         var viewMaxScale = parseFloat(Config.ViewPort.maxScale);
@@ -209,7 +139,7 @@ window.App.Manage = window.App.Manage || {};
                 y: pastStep.translate.y,
                 z: 0
             }
-            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(temp_t);
+            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + App.Utility.cssTranslate(temp_t);
 
             setTimeout(function () {
                 nextCall(callback);    
@@ -220,7 +150,7 @@ window.App.Manage = window.App.Manage || {};
             //special overview
             if (pastIsOverview) {
                 $("#camera-move")[0].style.WebkitTransitionDuration = moveDuration + "ms";
-                $("#camera-move")[0].style.WebkitTransform =  cssTranslate(step.translate);                   
+                $("#camera-move")[0].style.WebkitTransform =  App.Utility.cssTranslate(step.translate);                   
 
                 setTimeout(function () {
                     nextCall(callback);    
@@ -247,7 +177,7 @@ window.App.Manage = window.App.Manage || {};
                 y: step.translate.y,
                 z: 0,
             }
-            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + cssTranslate(temp_t);   
+            $("#camera-move")[0].style.WebkitTransform = "scale(" + scaleReview + ")" + App.Utility.cssTranslate(temp_t);   
             setTimeout(function () {
                 nextCall(callback);    
             }, moveDuration);                           
@@ -260,7 +190,7 @@ window.App.Manage = window.App.Manage || {};
             }
 
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = cssScale(step.scale) +  cssRotate(step.rotate, true) + cssTranslate(step.translate);      
+            $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);      
 
             setTimeout(function () {
                 nextCall(callback);    
