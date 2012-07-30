@@ -12,8 +12,26 @@ window.App.Text = window.App.Text || {};
 		},
 		'isThumb': false
 	}
+	global.keyAllow = function (code) {
+		var cfg = Config.keyMap;
+		for (var i in cfg) {
+			var temp = cfg[i];
+			for (var j = 0; j <temp.length; j++) {
+				if (temp[j] == code) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 
 	global.keyMap = function (code) {
+		if (!this.keyAllow) {
+			console.log('key is not allowed');
+			return;
+		}
+		
 		if (this.config.isExecute) {
 			console.log('under execute!');
 			return;
