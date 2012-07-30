@@ -16,20 +16,56 @@
     font-family: "OptimusPrincepsSemiBold"; 
     src: url(fonts/OptimusPrincepsSemiBold.ttf);
 }
-
-.text-family-handwriting {
+.text.style-1 {
+    color: #fff;
+    text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
+}
+.text.style-2 {
+    color: #707070;
+    text-shadow: 5px 5px 0px #eee, 7px 7px 0px #707070;
+}
+.text.style-3 {
+    color: #fff;
+    text-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
+}
+.text.style-4 {
+   -webkit-text-stroke: 1px black;
+   color: white;
+   font-size: 60px;
+   text-shadow:
+        3px 3px 0 #000,
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;       
+}
+.text.style-5 {
+    
+}
+.text.text-family-handwriting {
     font-family: "handwriting";
 }
 
-.text-family-Cake {
+.text.text-family-Cake {
     font-family: "Jellyka Delicious Cake";
 }
 
-.text-family-merit2 {
+.text.text-family-merit2 {
     font-family: "merit2";
 }
 
-.text-family-Optimus {
+.text.text-family-Optimus {
     font-family: "OptimusPrincepsSemiBold";
 }
 
@@ -69,7 +105,7 @@ body{
     position: absolute;
     left: 0px;
     top: 0px;
-    opacity: 0;
+    opacity: 1;
     /*border: 1px black solid;*/
 
     display: -webkit-flexbox;
@@ -80,13 +116,17 @@ body{
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
     -webkit-transform-origin: 50% 50%;
     -webkit-transform-style: preserve-3d;
-    -webkit-backface-visibility: hidden;
+    /*-webkit-backface-visibility: hidden;*/
+}
+.step.clear {
+    background: transparent;
 }
 .thumb {
     background: rgba(0, 0, 0, 0.1);
     opacity: 1;
 }
-.thumb.text{
+
+.thumb.text {
     opacity: 1;
 }
 
@@ -99,40 +139,7 @@ body{
 .text{
     -webkit-transform-style: preserve-3d;    
     margin: 5px 0;
-    font-family: "Times New Roman"; 
-
-/*    font-family: 'Aclonica', serif;
-    color: #fff;
-    text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;*/
-
-/*    font-family: "League-Gothic", Courier;
-    color: #707070;
-    text-shadow: 5px 5px 0px #eee, 7px 7px 0px #707070;*/
-
-/*    font-family: "League-Gothic", Courier;
-    color: #fff;
-    text-shadow: 0 1px 0 #ccc,
-               0 2px 0 #c9c9c9,
-               0 3px 0 #bbb,
-               0 4px 0 #b9b9b9,
-               0 5px 0 #aaa,
-               0 6px 1px rgba(0,0,0,.1),
-               0 0 5px rgba(0,0,0,.1),
-               0 1px 3px rgba(0,0,0,.3),
-               0 3px 5px rgba(0,0,0,.2),
-               0 5px 10px rgba(0,0,0,.25),
-               0 10px 10px rgba(0,0,0,.2),
-               0 20px 20px rgba(0,0,0,.15);*/
-
-/*   -webkit-text-stroke: 1px black;
-   color: white;
-   font-size: 60px;
-   text-shadow:
-       3px 3px 0 #000,
-     -1px -1px 0 #000,  
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-       1px 1px 0 #000;  */             
+    font-family: "Times New Roman";            
 }
 
 .text-transition-all{

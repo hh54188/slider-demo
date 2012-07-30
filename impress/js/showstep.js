@@ -252,10 +252,9 @@ window.App.Manage = window.App.Manage || {};
                 nextCall(callback);    
             }, moveDuration);                           
         }
-
         var zoomIn = function () {
             //如果已经在同一平面上，则不需要放大了(还需要优化)
-            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
+            if (step.rotate == pastStep.rotate && step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
                 nextCall(callback);
                 return;   
             }
