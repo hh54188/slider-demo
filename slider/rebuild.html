@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="js/basic/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/basic/jquery-ui-1.8.18.custom.min.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/utility.js"></script>
+    <script type="text/javascript" src="js/showtext.js"></script>
+    <script type="text/javascript" src="js/showstep.js"></script>
+    <script type="text/javascript" src="js/manage.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <script type="text/javascript">
+        $(function () {
+            App.View.initCanvas();
+            App.View.initStep();
+            App.Manage.bindTextClick();
+            App.Manage.bindResetClick();
+
+            //按键 
+            $(document).keydown(function (e) {
+                App.Manage.keyMap(e.keyCode); 
+            })
+
+            //重置窗口
+            $(window).resize(function () {
+                 App.View.resizeCanvas();
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="camera-zoom">
+    <div id="camera-move">
+        <div id="step-1" class="step" data-x="100" data-y="-100" data-scale="1">
+            <h1 class="text text-transition-transform  text-size-48" data-index="0">Sorry, no effect yet</h1>
+            <h1 class="text text-transition-all text-bg text-size-48" data-index="1" data-effect="fly">I'm fly in!</h1>
+            <h1 class="text text-transition-all text-bg  text-size-48" data-index="2" data-effect="flip-x">I'm flip-x!</h1>
+            <h1 class="text text-transition-all text-bg  text-size-48" data-index="3" data-effect="flip-y">I'm flip-y!</h1>
+            <h1 class="text text-transition-all text-bg  text-size-48" data-index="4" data-effect="card">I'm card!</h1>
+            <h1 class="text text-transition-all text-bg  text-size-48" data-index="5" data-effect="flip">I'm flip!</h1>
+        </div>
+        <div id="step-7" class="step" data-x="300" data-y="-100" data-scale="1">
+            <h1 class="text text-transition-all text-size-48 text-family-handwriting" data-index="0">power point wall!</h1>
+            <h1 class="text text-transition-all text-size-48 text-family-Cake" data-index="0">power point wall!</h1>
+            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">power point wall!</h1>
+            <h1 class="text text-transition-all text-size-48 text-family-Optimus" data-index="0">power point wall!</h1>
+        </div>       
+        <div id="step-2" class="step" data-x="100" data-y="-100" data-z="-6500" data-scale="1" data-rotatez="60">
+            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">I could be very tiny!</h1>
+        </div>    
+        <div id="step-3" class="step clear" data-scale="1" data-x="-300" data-y="-300" data-rotatey="10" data-rotatex="-40">
+            <h1 class="text text-transition-all text-size-48 style-1" data-index="0" data-rotatex="0" data-rotatey="20" data-rotatez="0">power point wall!</h1>
+            <h1 class="text text-transition-all text-size-48 style-2" data-index="0" data-rotatex="0" data-rotatey="30" data-rotatez="0">power point wall!</h1>
+            <h1 class="text text-transition-all text-size-48 style-3" data-index="0" data-rotatex="0" data-rotatey="40" data-rotatez="0">power point wall!</h1>
+            <h1 class="text text-transition-all text-size-48 style-4" data-index="0" data-rotatex="0" data-rotatey="50" data-rotatez="0">power point wall!</h1>
+        </div>
+        <div id="step-4" class="step" data-x="300" data-y="300" data-scale="0.5">
+            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">You can defined your theme</h1>
+        </div>
+        <div id="step-5" class="step prev" data-x="-500" data-y="100" data-scale="1">
+            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">This is theme 5</h1>
+        </div>   
+        <div id="overview" class="step cur" data-x="0" data-y="0" data-scale="1"></div>     
+    </div>
+</div>
+</body>
+</html>
