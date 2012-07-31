@@ -78,6 +78,15 @@ window.App.Utility = window.App.Utility || {};
     }
 
 	global.setStep = function (el, past) {
+        //启用主题
+        if (el.data('theme')) {
+            $('body').addClass('theme-' + el.data('theme'));
+        } else {
+            var theme = $('body').attr('class');
+            for (var i in theme) {
+                $('body').removeClass(theme[i]);
+            }
+        }
         //overview作特殊处理
         if (el.prop('id') == "overview") {
             $("#camera-move")[0].style.WebkitTransform = "";
@@ -182,9 +191,10 @@ window.App.Utility = window.App.Utility || {};
                 nextCall(callback);    
             }, moveDuration);                           
         }
+
         var zoomIn = function () {
             //如果已经在同一平面上，则不需要放大了(还需要优化)
-            if (step.rotate == pastStep.rotate && step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
+            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
                 nextCall(callback);
                 return;   
             }

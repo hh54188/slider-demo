@@ -80,8 +80,16 @@ body{
     height:100%;
     overflow: hidden;
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
+    /*-webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;*/
+    -webkit-transition: background-color 1s ease;
 }
-
+/*theme*/
+body.theme-dark {
+    background:  -webkit-radial-gradient(50% 50%, circle cover, rgba(0, 0, 0, 0.7), rgba(35, 35, 35, 1) 60%);
+}
+body.theme-dark .text {
+    color: white;
+}
 #camera-zoom{
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
     position: absolute;
@@ -99,13 +107,13 @@ body{
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
 }
 .step{
-    background:rgba(255, 165, 0, 1);
+    /*background:rgba(255, 165, 0, 1);*/
     width:960px;
     height:600px;
     position: absolute;
     left: 0px;
     top: 0px;
-    opacity: 1;
+    opacity: 0;
     /*border: 1px black solid;*/
 
     display: -webkit-flexbox;
