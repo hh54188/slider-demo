@@ -36,10 +36,6 @@ window.App.Text = window.App.Text || {};
 			console.log('under execute!');
 			return;
 		}
-		//在预览模式下，不允许空格键
-		if (this.config.isThumb) {
-
-		}
 
 		this.enableExecute();
 		var cfg = Config.keyMap;
@@ -145,7 +141,9 @@ window.App.Text = window.App.Text || {};
 
 	global.go = function () {
 		var cur = this.config.stepIndex.cur;
-		var max = this.config.stepIndex.max;		
+		var max = this.config.stepIndex.max;
+		console.log('cur', cur);
+		console.log('max', max);
 
 		//如果是第一幅ppt || 或者切换到下一幅
 		if ($('.cur').prop('id') == "overview" || cur >= max) {			
@@ -156,12 +154,14 @@ window.App.Text = window.App.Text || {};
 			//重新配置cur and max
 			this.setStepIndex(steps.cur);
 			//初始化下一幅
+			console.log('show next step');
 			App.View.setStep(steps.cur, steps.prev);
 			return;
 		} 
 
 		//如果本页还没有执行完
 		if (cur < max) {
+			console.log('have not end yet');
 			if (this.getNextTextIndex($('.cur'))) {
 				App.Text.showTextByIndex($('.cur'), this.config.stepIndex.cur);
 			}
@@ -171,8 +171,11 @@ window.App.Text = window.App.Text || {};
 	global.goNext = function () {
 		//如果不是略缩图状态
 		if (!this.config.isThumb) {
+			//如果不是略缩图状态
+			console.log("go next");
 			var steps = this.getNextStep();
 			App.Text.initText(steps.cur);
+			console.log('cur id', steps.cur.prop('id'));
 			this.setStepIndex(steps.cur);
 			App.View.setStep(steps.cur, steps.prev);
 		} else {
@@ -197,6 +200,7 @@ window.App.Text = window.App.Text || {};
 
 
 	global.setStepIndex = function (wrap) {
+		console.log('set step index');
 		var cur = this.config.stepIndex.cur;
 		var max = this.config.stepIndex.max;
 		cur = 0;
@@ -206,13 +210,16 @@ window.App.Text = window.App.Text || {};
 		var _this = this;
 		$texts.each(function () {
             var index = $(this).data('index');
-            if (index) {
-				if (index > max) { 
+            console.log('index', index);
+            if (index != undefined) {
+				if (index >= max) { 
 					_this.config.stepIndex.max = index;
-					max = index;
 				}            	
             }
 		});		
+
+		console.log('max', _this.config.stepIndex.max);
+		console.log('cur', _this.config.stepIndex.cur);
 	}
 
 	global.getNextTextIndex = function (wrap) {

@@ -6,6 +6,7 @@ window.App.Utility = window.App.Utility || {};
 
 (function (global) {
 	global.showTextByIndex = function (wrap, index) {
+		console.log('show test');
 		var $texts = wrap.find('.text[data-index="' + index + '"]:not(.readed)');
 
 		if ($texts.length == 0) {
@@ -35,7 +36,6 @@ window.App.Utility = window.App.Utility || {};
 			}
 
 			var step = App.Utility.collectCanvasData($(this));
-			console.log('step', step)
             $(this)[0].style.WebkitTransform =  App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);  
 		});
 	};
