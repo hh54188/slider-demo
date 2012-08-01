@@ -31,7 +31,7 @@ window.App.Text = window.App.Text || {};
 			console.log('key is not allowed');
 			return;
 		}
-		
+		console.log("key is allowed");
 		if (this.config.isExecute) {
 			console.log('under execute!');
 			return;
@@ -130,11 +130,13 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.enableExecute = function () {
+		$('#loading').fadeIn(100);
 		console.log('enable execute');
 		this.config.isExecute = true;
 	}
 
 	global.disableExecute = function () {
+		$('#loading').fadeOut(100);
 		console.log('disable execute');
 		this.config.isExecute = false;
 	}

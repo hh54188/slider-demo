@@ -220,7 +220,7 @@ window.App.Utility = window.App.Utility || {};
                     scale: temp.scale
                 }
                 App.Utility.cssStep(el, temp);
-                $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) + " rotate3d(0, 0, 0) " + App.Utility.cssTranslate(step.translate);      
+                $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) + " rotateZ(0deg) rotateY(0deg) rotateX(0deg) " + App.Utility.cssTranslate(step.translate);      
             } else {
                 $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);
             }

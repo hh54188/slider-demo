@@ -16,6 +16,61 @@
     font-family: "OptimusPrincepsSemiBold"; 
     src: url(fonts/OptimusPrincepsSemiBold.ttf);
 }
+
+#loading{
+    position: absolute;
+    display: none;
+    bottom: -50%;
+    opacity: 0.7;
+}
+#loading p{
+    font-family: "Times New Roman";            
+    font-size: 1.2em;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+}
+#circle{
+    position:relative;
+    bottom: 0px;
+    left:-25px;
+}
+
+.ball-out {
+    background-color: rgba(0,0,0,0);
+    border:5px solid rgba(0,0,0,1);
+    opacity:.9;
+    border-top:5px solid rgba(0,0,0,0);
+    border-left:5px solid rgba(0,0,0,0);
+    border-radius:50px;
+    width:40px;
+    height:40px;
+    margin:0 auto;
+    -webkit-animation:spin 1.5s infinite linear;
+}
+.ball-in {
+    background-color: rgba(0,0,0,0);
+    border:5px solid rgba(0,0,0,1);
+    opacity:.9;
+    border-top:5px solid rgba(0,0,0,0);
+    border-left:5px solid rgba(0,0,0,0);
+    border-radius:50px;
+    width:20px;
+    height:20px;
+    margin:0 auto;
+    position:relative;
+    top:-40px;
+    -webkit-animation:spinoff .7s infinite linear;
+}
+@-webkit-keyframes spin {
+    0% { -webkit-transform:rotate(0deg); }
+    100% { -webkit-transform:rotate(360deg); }
+}
+@-webkit-keyframes spinoff {
+    0% { -webkit-transform:rotate(0deg); }
+    100% { -webkit-transform:rotate(-360deg); }
+}​
 .text.style-1 {
     color: #fff;
     text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
@@ -105,6 +160,9 @@ body.theme-dark .text {
 
     -webkit-transform-style: preserve-3d;
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
+}
+.bg-orange{
+    background: orange;
 }
 .step{
     /*background:rgba(255, 165, 0, 1);*/
