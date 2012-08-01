@@ -194,13 +194,37 @@ window.App.Utility = window.App.Utility || {};
 
         var zoomIn = function () {
             //如果已经在同一平面上，则不需要放大了(还需要优化)
-            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
+            if (step.rotate == pastStep.rotate && step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
                 nextCall(callback);
                 return;   
             }
 
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);      
+            //可有可无 调整camera-move 的变形中心
+            // $("#camera-move")[0].style.WebkitTransformOrigin = step.translate.x + "px " + step.translate.y + "px";
+            // console.log('origin', $("#camera-move")[0].style.WebkitTransformOrigin);
+            var isSelf = el.data('self');
+            if (isSelf) {
+                var temp = App.Utility.collectStepData(el);
+                var temp = {
+                    translate: {
+                        x: temp.translate.x,
+                        y: temp.translate.y,
+                        z: temp.translate.z
+                    },
+                    rotate: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    scale: temp.scale
+                }
+                App.Utility.cssStep(el, temp);
+                $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) + " rotate3d(0, 0, 0) " + App.Utility.cssTranslate(step.translate);      
+            } else {
+                $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);
+            }
+            
 
             setTimeout(function () {
                 nextCall(callback);    
@@ -220,6 +244,7 @@ window.App.Utility = window.App.Utility || {};
             }
             App.Manage.disableExecute();
             console.log('action complete');
+            $("#camera-move")[0].style.WebkitTransformOrigin = "50% 50%";
         }
 
         var nextCall = function (que) {

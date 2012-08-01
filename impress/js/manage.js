@@ -200,7 +200,6 @@ window.App.Text = window.App.Text || {};
 
 
 	global.setStepIndex = function (wrap) {
-		console.log('set step index');
 		var cur = this.config.stepIndex.cur;
 		var max = this.config.stepIndex.max;
 		cur = 0;
@@ -210,16 +209,12 @@ window.App.Text = window.App.Text || {};
 		var _this = this;
 		$texts.each(function () {
             var index = $(this).data('index');
-            console.log('index', index);
             if (index != undefined) {
 				if (index >= max) { 
 					_this.config.stepIndex.max = index;
 				}            	
             }
 		});		
-
-		console.log('max', _this.config.stepIndex.max);
-		console.log('cur', _this.config.stepIndex.cur);
 	}
 
 	global.getNextTextIndex = function (wrap) {
@@ -318,7 +313,6 @@ window.App.Text = window.App.Text || {};
 
     global.bindTextClick = function () {
     	$('.text').live('click', function () {
-    		console.log('click');
     		App.Text.resetFocus();
     		App.Text.focusText($(this));
     	})
