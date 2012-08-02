@@ -13,11 +13,13 @@ window.App.Text = window.App.Text || {};
 		'isThumb': false
 	}
 	global.keyAllow = function (code) {
+		console.log(code);
 		var cfg = Config.keyMap;
 		for (var i in cfg) {
 			var temp = cfg[i];
 			for (var j = 0; j <temp.length; j++) {
 				if (temp[j] == code) {
+					console.log('have this code!');
 					return true;
 				}
 			}
@@ -27,7 +29,7 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.keyMap = function (code) {
-		if (!this.keyAllow) {
+		if (!this.keyAllow(code)) {
 			console.log('key is not allowed');
 			return;
 		}
@@ -144,8 +146,6 @@ window.App.Text = window.App.Text || {};
 	global.go = function () {
 		var cur = this.config.stepIndex.cur;
 		var max = this.config.stepIndex.max;
-		console.log('cur', cur);
-		console.log('max', max);
 
 		//如果是第一幅ppt || 或者切换到下一幅
 		if ($('.cur').prop('id') == "overview" || cur >= max) {			

@@ -118,6 +118,12 @@ window.App.Utility = window.App.Utility || {};
 
         //step fn
         var zoomOut = function () {
+            //如果是自翻转
+            var isSelf = past.data('self');
+            if (isSelf) {
+                var temp = App.Utility.collectStepData(past);
+                App.Utility.cssStep(past, temp);
+            };
             //初始化不透明度
             //show slider
             global.showStep();
