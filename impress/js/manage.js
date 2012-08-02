@@ -46,7 +46,13 @@ window.App.Text = window.App.Text || {};
 			for (var j = 0; j <temp.length; j++) {
 				if (temp[j] == code) {
 					switch (i) {
-						case "go": this.go(); break;
+						case "go": {
+							if (this.config.isThumb) {
+								this.disableExecute();
+								return;
+							}
+							this.go(); break;
+						}
 						case "nextStep": this.goNext(); break;
 						case "prevStep": this.goPrev(); break;
 						case "overview": this.thumbToggle(); break;
