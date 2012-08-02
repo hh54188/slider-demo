@@ -132,13 +132,13 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.enableExecute = function () {
-		$('#loading').fadeIn(100);
+		$('#loading').css('opacity', 0.7);
 		console.log('enable execute');
 		this.config.isExecute = true;
 	}
 
 	global.disableExecute = function () {
-		$('#loading').fadeOut(100);
+		$('#loading').css('opacity', 0);
 		console.log('disable execute');
 		this.config.isExecute = false;
 	}
@@ -156,7 +156,6 @@ window.App.Text = window.App.Text || {};
 			//重新配置cur and max
 			this.setStepIndex(steps.cur);
 			//初始化下一幅
-			console.log('show next step');
 			App.View.setStep(steps.cur, steps.prev);
 			return;
 		} 

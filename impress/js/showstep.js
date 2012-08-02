@@ -180,7 +180,8 @@ window.App.Utility = window.App.Utility || {};
             }
 
             //如果只在平面上移动(普通幻灯片模式)
-            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale) {
+            // if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale) {
+            if ((step.translate.x == pastStep.translate.x || step.translate.y == pastStep.translate.y) && step.translate.z == pastStep.translate.z) {
                 scaleReview = step.scale;
             }            
 
@@ -231,7 +232,6 @@ window.App.Utility = window.App.Utility || {};
                 $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);
             }
             
-
             setTimeout(function () {
                 nextCall(callback);    
             }, zoomDuration);

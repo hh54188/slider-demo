@@ -18,11 +18,11 @@
 }
 
 #loading{
-    -webkit-transform: translate(50%,300%) scale(0.4);
+    -webkit-transform: translate(50%,300%) scale(0.7);
     position: absolute;
     left: -25px;
-    /*display: none;*/
-    opacity: 0.7;
+    opacity: 0;
+    -webkit-transition:all 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
 }
 #loading p{
     font-family: "Times New Roman";            
@@ -165,6 +165,9 @@ body.theme-dark .text {
 .bg-orange{
     background: orange;
 }
+.bg-white{
+    background: white;
+}
 .step{
     /*background:rgba(255, 165, 0, 1);*/
     width:960px;
@@ -191,7 +194,7 @@ body.theme-dark .text {
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
     -webkit-transform-origin: 50% 50%;
     -webkit-transform-style: preserve-3d;
-    /*-webkit-backface-visibility: hidden;*/
+    -webkit-backface-visibility: hidden;
 }
 .step.clear {
     background: transparent;
