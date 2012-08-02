@@ -8,28 +8,6 @@
     <script type="text/javascript" src="js/basic/backbone-min.js"></script>
     <style type="text/css">
         *{margin: 0; padding: 0;}
-/*        @font-face {
-            font-family: "Jellyka Delicious Cake"; 
-            src: url(fonts/Jellyka Delicious Cake.ttf);
-        }*/
-        @font-face {
-            font-family: "merit2"; 
-            src: url(merit2.ttf);
-        }
-        @font-face {
-            font-family: "OptimusPrincepsSemiBold"; 
-            src: url(OptimusPrincepsSemiBold.ttf);
-        }       
-/*        .style1 {
-            font-family: "Jellyka Delicious Cake"; 
-        }*/ 
-        .style2 {
-            font-family: "merit2";
-        }
-        .style3 {
-            font-family: "OptimusPrincepsSemiBold"; 
-        }
-
         .slider {
             width: 960px;
             height: 400px;
@@ -38,14 +16,19 @@
             margin-top: 50px;
         }
         .flex-wrap {
-            display: -webkit-flexbox;
+            display: -webkit-box;
             border: 1px solid black;
             -webkit-flex-pack: center;
             -webkit-flex-align: center;
-            -webkit-flex-direction: column;
-            -webkit-perspective: 200px;
 
-            width:80%;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-direction: column;
+            /*-webkit-perspective: 200px;*/
+
+            width:100%;
             height:100%;
         }
         .transition {
