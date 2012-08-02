@@ -18,9 +18,9 @@
 }
 
 #loading{
+    -webkit-transform: translate(50%,300%);
     position: absolute;
-    display: none;
-    bottom: -50%;
+    /*display: none;*/
     opacity: 0.7;
 }
 #loading p{
@@ -174,9 +174,15 @@ body.theme-dark .text {
     opacity: 0;
     /*border: 1px black solid;*/
 
-    display: -webkit-flexbox;
+    /* <20 */
+/*    display: -webkit-flexbox;
     -webkit-flex-pack: center;
     -webkit-flex-align: center;
+    -webkit-flex-direction: column;*/
+    /* 21 */
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
     -webkit-flex-direction: column;
 
     -webkit-transition: all 1s cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
