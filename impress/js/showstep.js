@@ -82,7 +82,7 @@ window.App.Utility = window.App.Utility || {};
         if (el.data('theme')) {
             $('body').addClass('theme-' + el.data('theme'));
         } else {
-            var theme = $('body').attr('class');
+            var theme = $('body').prop('class').split(',');
             for (var i in theme) {
                 $('body').removeClass(theme[i]);
             }

@@ -74,6 +74,7 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.enableThumb = function () {
+		//去掉那些点击被聚焦的样式
 		App.Text.resetFocus();
 		
 		var past = [];
