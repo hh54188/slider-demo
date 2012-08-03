@@ -27,18 +27,12 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.keyMap = function (code) {
-		if (!this.keyAllow) {
-			console.log('key is not allowed');
+		if (!this.keyAllow(code)) {
 			return;
 		}
-		
-		if (this.config.isExecute) {
-			console.log('under execute!');
-			return;
-		}
-		//在预览模式下，不允许空格键
-		if (this.config.isThumb) {
 
+		if (this.config.isExecute) {
+			return;
 		}
 
 		this.enableExecute();
@@ -48,7 +42,13 @@ window.App.Text = window.App.Text || {};
 			for (var j = 0; j <temp.length; j++) {
 				if (temp[j] == code) {
 					switch (i) {
-						case "go": this.go(); break;
+						case "go": {
+							if (this.config.isThumb) {
+								this.disableExecute();
+								return;
+							}
+							this.go(); break;
+						}
 						case "nextStep": this.goNext(); break;
 						case "prevStep": this.goPrev(); break;
 						case "overview": this.thumbToggle(); break;
@@ -70,6 +70,7 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.enableThumb = function () {
+		//去掉那些点击被聚焦的样式
 		App.Text.resetFocus();
 		
 		var past = [];
@@ -134,18 +135,18 @@ window.App.Text = window.App.Text || {};
 	}
 
 	global.enableExecute = function () {
-		console.log('enable execute');
+		$('#loading').css('opacity', 0.7);
 		this.config.isExecute = true;
 	}
 
 	global.disableExecute = function () {
-		console.log('disable execute');
+		$('#loading').css('opacity', 0);
 		this.config.isExecute = false;
 	}
 
 	global.go = function () {
 		var cur = this.config.stepIndex.cur;
-		var max = this.config.stepIndex.max;		
+		var max = this.config.stepIndex.max;
 
 		//如果是第一幅ppt || 或者切换到下一幅
 		if ($('.cur').prop('id') == "overview" || cur >= max) {			
@@ -171,6 +172,7 @@ window.App.Text = window.App.Text || {};
 	global.goNext = function () {
 		//如果不是略缩图状态
 		if (!this.config.isThumb) {
+			//如果不是略缩图状态
 			var steps = this.getNextStep();
 			App.Text.initText(steps.cur);
 			this.setStepIndex(steps.cur);
@@ -206,10 +208,9 @@ window.App.Text = window.App.Text || {};
 		var _this = this;
 		$texts.each(function () {
             var index = $(this).data('index');
-            if (index) {
-				if (index > max) { 
+            if (index != undefined) {
+				if (index >= max) { 
 					_this.config.stepIndex.max = index;
-					max = index;
 				}            	
             }
 		});		
@@ -311,7 +312,6 @@ window.App.Text = window.App.Text || {};
 
     global.bindTextClick = function () {
     	$('.text').live('click', function () {
-    		console.log('click');
     		App.Text.resetFocus();
     		App.Text.focusText($(this));
     	})

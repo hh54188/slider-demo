@@ -65,10 +65,24 @@ window.App.Utility = window.App.Utility || {};
         $('.perv').css('opacity', 0.3);
     }
 
+    global.enableTheme = function (el) {
+        var theme = $('body').prop('class').split(',');
+        for (var i in theme) {
+            if (theme[i].indexOf('theme') > -1) {
+                $('body').removeClass(theme[i]);    
+            }
+        }
+        //启用主题
+        if (el.data('theme')) {
+            $('body').addClass('theme-' + el.data('theme'));
+        } 
+    }
+
     global.setSimpleStep = function (el) {
         var step = App.Utility.collectCanvasData(el);
         var zoomDuration = parseInt(Config.ViewPort.zoomDuration);
         this.showStep();
+        this.enableTheme(el);
         $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
         $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);      
 
@@ -77,21 +91,12 @@ window.App.Utility = window.App.Utility || {};
         }, zoomDuration);
     }
 
+
 	global.setStep = function (el, past) {
-        //启用主题
-        if (el.data('theme')) {
-            $('body').addClass('theme-' + el.data('theme'));
-        } else {
-            var theme = $('body').attr('class');
-            for (var i in theme) {
-                $('body').removeClass(theme[i]);
-            }
-        }
         //overview作特殊处理
         if (el.prop('id') == "overview") {
             $("#camera-move")[0].style.WebkitTransform = "";
             App.Manage.disableExecute();
-            console.log('action complete');
             return;
         }
 
@@ -118,11 +123,15 @@ window.App.Utility = window.App.Utility || {};
 
         //step fn
         var zoomOut = function () {
+            //如果是自翻转
+            var isSelf = past.data('self');
+            if (isSelf) {
+                var temp = App.Utility.collectStepData(past);
+                App.Utility.cssStep(past, temp);
+            };
             //初始化不透明度
             //show slider
             global.showStep();
-            // el.css('opacity', 1);
-            // past.css('opacity', 0.3);
 
             //特殊处理overview
             if (pastIsOverview) {
@@ -174,7 +183,8 @@ window.App.Utility = window.App.Utility || {};
             }
 
             //如果只在平面上移动(普通幻灯片模式)
-            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale) {
+            // if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale) {
+            if ((step.translate.x == pastStep.translate.x || step.translate.y == pastStep.translate.y) && step.translate.z == pastStep.translate.z) {
                 scaleReview = step.scale;
             }            
 
@@ -194,14 +204,38 @@ window.App.Utility = window.App.Utility || {};
 
         var zoomIn = function () {
             //如果已经在同一平面上，则不需要放大了(还需要优化)
-            if (step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
+            global.enableTheme(el);
+            if (step.rotate == pastStep.rotate && step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
                 nextCall(callback);
                 return;   
             }
 
             $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
-            $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);      
-
+            //可有可无 调整camera-move 的变形中心
+            // $("#camera-move")[0].style.WebkitTransformOrigin = step.translate.x + "px " + step.translate.y + "px";
+            // console.log('origin', $("#camera-move")[0].style.WebkitTransformOrigin);
+            var isSelf = el.data('self');
+            if (isSelf) {
+                var temp = App.Utility.collectStepData(el);
+                var temp = {
+                    translate: {
+                        x: temp.translate.x,
+                        y: temp.translate.y,
+                        z: temp.translate.z
+                    },
+                    rotate: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    scale: temp.scale
+                }
+                App.Utility.cssStep(el, temp);
+                $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) + " rotateZ(0deg) rotateY(0deg) rotateX(0deg) " + App.Utility.cssTranslate(step.translate);      
+            } else {
+                $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);
+            }
+            
             setTimeout(function () {
                 nextCall(callback);    
             }, zoomDuration);
@@ -219,7 +253,7 @@ window.App.Utility = window.App.Utility || {};
                     que[i].flag = false;
             }
             App.Manage.disableExecute();
-            console.log('action complete');
+            $("#camera-move")[0].style.WebkitTransformOrigin = "50% 50%";
         }
 
         var nextCall = function (que) {
