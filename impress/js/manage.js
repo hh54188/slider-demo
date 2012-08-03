@@ -13,13 +13,11 @@ window.App.Text = window.App.Text || {};
 		'isThumb': false
 	}
 	global.keyAllow = function (code) {
-		console.log(code);
 		var cfg = Config.keyMap;
 		for (var i in cfg) {
 			var temp = cfg[i];
 			for (var j = 0; j <temp.length; j++) {
 				if (temp[j] == code) {
-					console.log('have this code!');
 					return true;
 				}
 			}
@@ -30,12 +28,10 @@ window.App.Text = window.App.Text || {};
 
 	global.keyMap = function (code) {
 		if (!this.keyAllow(code)) {
-			console.log('key is not allowed');
 			return;
 		}
-		console.log("key is allowed");
+
 		if (this.config.isExecute) {
-			console.log('under execute!');
 			return;
 		}
 
@@ -140,13 +136,11 @@ window.App.Text = window.App.Text || {};
 
 	global.enableExecute = function () {
 		$('#loading').css('opacity', 0.7);
-		console.log('enable execute');
 		this.config.isExecute = true;
 	}
 
 	global.disableExecute = function () {
 		$('#loading').css('opacity', 0);
-		console.log('disable execute');
 		this.config.isExecute = false;
 	}
 
@@ -169,7 +163,6 @@ window.App.Text = window.App.Text || {};
 
 		//如果本页还没有执行完
 		if (cur < max) {
-			console.log('have not end yet');
 			if (this.getNextTextIndex($('.cur'))) {
 				App.Text.showTextByIndex($('.cur'), this.config.stepIndex.cur);
 			}
@@ -180,10 +173,8 @@ window.App.Text = window.App.Text || {};
 		//如果不是略缩图状态
 		if (!this.config.isThumb) {
 			//如果不是略缩图状态
-			console.log("go next");
 			var steps = this.getNextStep();
 			App.Text.initText(steps.cur);
-			console.log('cur id', steps.cur.prop('id'));
 			this.setStepIndex(steps.cur);
 			App.View.setStep(steps.cur, steps.prev);
 		} else {

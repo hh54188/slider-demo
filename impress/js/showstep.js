@@ -65,10 +65,24 @@ window.App.Utility = window.App.Utility || {};
         $('.perv').css('opacity', 0.3);
     }
 
+    global.enableTheme = function (el) {
+        var theme = $('body').prop('class').split(',');
+        for (var i in theme) {
+            if (theme[i].indexOf('theme') > -1) {
+                $('body').removeClass(theme[i]);    
+            }
+        }
+        //启用主题
+        if (el.data('theme')) {
+            $('body').addClass('theme-' + el.data('theme'));
+        } 
+    }
+
     global.setSimpleStep = function (el) {
         var step = App.Utility.collectCanvasData(el);
         var zoomDuration = parseInt(Config.ViewPort.zoomDuration);
         this.showStep();
+        this.enableTheme(el);
         $("#camera-move")[0].style.WebkitTransitionDuration = zoomDuration + "ms";
         $("#camera-move")[0].style.WebkitTransform = App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);      
 
@@ -77,21 +91,12 @@ window.App.Utility = window.App.Utility || {};
         }, zoomDuration);
     }
 
+
 	global.setStep = function (el, past) {
-        //启用主题
-        if (el.data('theme')) {
-            $('body').addClass('theme-' + el.data('theme'));
-        } else {
-            var theme = $('body').prop('class').split(',');
-            for (var i in theme) {
-                $('body').removeClass(theme[i]);
-            }
-        }
         //overview作特殊处理
         if (el.prop('id') == "overview") {
             $("#camera-move")[0].style.WebkitTransform = "";
             App.Manage.disableExecute();
-            console.log('action complete');
             return;
         }
 
@@ -127,8 +132,6 @@ window.App.Utility = window.App.Utility || {};
             //初始化不透明度
             //show slider
             global.showStep();
-            // el.css('opacity', 1);
-            // past.css('opacity', 0.3);
 
             //特殊处理overview
             if (pastIsOverview) {
@@ -201,6 +204,7 @@ window.App.Utility = window.App.Utility || {};
 
         var zoomIn = function () {
             //如果已经在同一平面上，则不需要放大了(还需要优化)
+            global.enableTheme(el);
             if (step.rotate == pastStep.rotate && step.translate.z == pastStep.translate.z && step.scale == pastStep.scale && past.prop('id') != "overview" ) {
                 nextCall(callback);
                 return;   
@@ -249,7 +253,6 @@ window.App.Utility = window.App.Utility || {};
                     que[i].flag = false;
             }
             App.Manage.disableExecute();
-            console.log('action complete');
             $("#camera-move")[0].style.WebkitTransformOrigin = "50% 50%";
         }
 
