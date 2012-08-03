@@ -6,7 +6,6 @@ window.App.Utility = window.App.Utility || {};
 
 (function (global) {
 	global.showTextByIndex = function (wrap, index) {
-		console.log('show test');
 		var $texts = wrap.find('.text[data-index="' + index + '"]:not(.readed)');
 
 		if ($texts.length == 0) {
@@ -19,6 +18,7 @@ window.App.Utility = window.App.Utility || {};
             $(this).addClass('text-' + effect + '-show').removeClass('text-' + effect + '-hide').removeClass('text-bg').addClass('text-readed');
 
             var step = App.Utility.collectCanvasData($(this));
+            console.log('rotate', step.rotate);
             $(this)[0].style.WebkitTransform = App.Utility.cssRotate(step.rotate);  
 		})
 		//结束执行
@@ -36,7 +36,8 @@ window.App.Utility = window.App.Utility || {};
 			}
 
 			var step = App.Utility.collectCanvasData($(this));
-            $(this)[0].style.WebkitTransform =  App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);  
+			console.log(step);
+            $(this)[0].style.WebkitTransform =  "scale(1)" +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);  
 		});
 	};
 
