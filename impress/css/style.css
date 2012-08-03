@@ -6,7 +6,7 @@ body{
     height:100%;
     overflow: hidden;
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
-    -webkit-transition: all 2s linear 0s;
+    -webkit-transition: all 1s linear 0s;
 }
 /*theme*/
 body.theme-red {
@@ -97,6 +97,11 @@ body.theme-blue .text {
     0% { -webkit-transform:rotate(0deg); }
     100% { -webkit-transform:rotate(-360deg); }
 }​
+
+.text .button{
+    font-family: "merit2";
+}
+
 .text.style-1 {
     color: #fff;
     text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
@@ -123,7 +128,6 @@ body.theme-blue .text {
 .text.style-4 {
    -webkit-text-stroke: 1px black;
    color: white;
-   font-size: 60px;
    text-shadow:
         3px 3px 0 #000,
         -1px -1px 0 #000,  
@@ -182,6 +186,9 @@ body.theme-blue .text {
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
     border: 1px solid rgba(0, 0, 0, .3);    
+}
+.bg-transparent{
+    background: rgba(0,0,0,0.1);
 }
 .step{
     /*background:rgba(255, 165, 0, 1);*/

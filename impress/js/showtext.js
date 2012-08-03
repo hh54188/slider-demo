@@ -15,11 +15,12 @@ window.App.Utility = window.App.Utility || {};
 
 		$texts.each(function () {
 			var effect = $(this).data('effect');
-            $(this).addClass('text-' + effect + '-show').removeClass('text-' + effect + '-hide').removeClass('text-bg').addClass('text-readed');
-
-            var step = App.Utility.collectCanvasData($(this));
-            console.log('rotate', step.rotate);
-            $(this)[0].style.WebkitTransform = App.Utility.cssRotate(step.rotate);  
+			if (effect) {
+				$(this).addClass('text-' + effect + '-show').removeClass('text-' + effect + '-hide').removeClass('text-bg').addClass('text-readed');	
+			} else {
+            	var step = App.Utility.collectCanvasData($(this));
+            	$(this)[0].style.WebkitTransform = "scale(1)" +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate); 
+			}           
 		})
 		//结束执行
 		App.Manage.disableExecute();
@@ -33,11 +34,10 @@ window.App.Utility = window.App.Utility || {};
 			var effect = $(this).data('effect');
 			if (effect) {
 				$(this).addClass('text-' + effect + '-hide');	
+			} else {
+				var step = App.Utility.collectCanvasData($(this));
+            	$(this)[0].style.WebkitTransform =  "scale(1)" +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);  				
 			}
-
-			var step = App.Utility.collectCanvasData($(this));
-			console.log(step);
-            $(this)[0].style.WebkitTransform =  "scale(1)" +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);  
 		});
 	};
 
@@ -50,7 +50,16 @@ window.App.Utility = window.App.Utility || {};
 	global.resetFocus = function () {
 		if ($('.focus').length == 0) return;
 		var step = App.Utility.collectCanvasData($('.focus'));
-        $('.focus')[0].style.WebkitTransform =  App.Utility.cssScale(step.scale) +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate);
+        $('.focus')[0].style.WebkitTransform =  "";
+
+    	var effect = $('.focus').data('effect');
+		if (effect) {
+			$('.focus').addClass('text-' + effect + '-show').removeClass('text-' + effect + '-hide').removeClass('text-bg');	
+		} else {
+        	var step = App.Utility.collectCanvasData($('.focus'));
+        	$('.focus')[0].style.WebkitTransform = "scale(1)" +  App.Utility.cssRotate(step.rotate, true) + App.Utility.cssTranslate(step.translate); 
+		} 
+
 		$('.focus').removeClass('focus');
         $('.blur').removeClass('blur');
 	}

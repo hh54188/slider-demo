@@ -5,7 +5,7 @@ Config.ViewPort = {
     height: 700, 
     maxScale: 1.5,
     minScale: 0,
-    perspective: 1000,
+    perspective: 500,
     zoomDuration: 1500,
     moveDuration: 1500,
     rotateDuration: 1000,

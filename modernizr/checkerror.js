@@ -1,1 +1,1 @@
-console.log('check error!');
+alert('check error!');

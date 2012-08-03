@@ -12,11 +12,20 @@
     <script type="text/javascript" src="js/manage.js"></script>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <script type="text/javascript">
+        Modernizr.load([
+            {
+                test : Modernizr.fontface && Modernizr.borderradius && Modernizr.boxshadow && Modernizr.flexbox && Modernizr.flexbox && Modernizr.cssanimations && Modernizr.csstransforms3d && Modernizr.csstransforms,
+                nope : ['js/error.js']
+            }
+        ]);
+
         $(function () {
             App.View.initCanvas();
             App.View.initStep();
             App.Manage.bindTextClick();
             App.Manage.bindResetClick();
+
+            App.Manage.goNext();
 
             //按键 
             $(document).keydown(function (e) {
@@ -35,21 +44,21 @@
     <div id="camera-move">
 
         <div id="step-1" class="step bg-white" data-x="100" data-y="-100" data-scale="1">
-            <h1 class="text text-transition-all  text-size-48" data-index="0">Actually, I haveome tired of this kind of PPT</h1>
-            <h1 class="text text-transition-all  text-size-48" data-index="0">Press space bar to continue</h1>
+            <h1 class="text text-transition-all  text-size-36" data-index="0">Actually, I haveome tired of this kind of PPT</h1>
+            <h1 class="text text-transition-all  text-size-36" data-index="0">Press <span class="button">Space Bar</span> to continue</h1>
         </div>
 
-        <div id="step-2" class="step bg-white" data-x="300" data-y="-100" data-scale="1">
-            <h1 class="text text-transition-all  text-size-48" data-index="0">So why let's make a difference!</h1>
+        <div id="step-2" class="step bg-white" data-x="200" data-y="-100" data-scale="1">
+            <h1 class="text text-transition-all  text-size-36" data-index="0">Let's make a difference!</h1>
         </div>
 
-        <div id="step-3" class="step" data-x="300" data-y="-200" data-rotatez="90" data-self="1" data-scale="1">
-            <h1 class="text text-transition-all  text-size-48" data-index="0">You can also use left or right</h1>
-            <h1 class="text text-transition-all  text-size-48" data-index="0"> to slide to the next or the previous one</h1>
+        <div id="step-3" class="step" data-x="200" data-y="-150" data-scale="1">
+            <h1 class="text text-transition-all  text-size-36" data-index="0">You can also use <span class="button">Left</span> or <span class="button">Right</span> arrow</h1>
+            <h1 class="text text-transition-all  text-size-36" data-index="0"> to slide to the next or the previous one</h1>
         </div>
 
-        <div id="step-4" class="step" data-x="-300" data-y="-100" data-scale="1">
-            <h1 class="text text-transition-all  text-size-48" data-index="0">Now I will show you some awesome effect...</h1>
+        <div id="step-4" class="step" data-x="-170" data-y="-100" data-rotatez="-90" data-self="1" data-scale="1">
+            <h1 class="text text-transition-all  text-size-36" data-index="0">Now I will show you some awesome effect...</h1>
             <h1 class="text text-transition-all  text-size-36" data-index="0">Press space bar to continue</h1>
             <h1 class="text text-transition-all text-bg text-size-36" data-index="1" data-effect="fly">please press again</h1>
             <h1 class="text text-transition-all text-bg  text-size-36" data-index="2" data-effect="flip-x">want some more</h1>
@@ -58,31 +67,37 @@
             <h1 class="text text-transition-all text-bg  text-size-36" data-index="5" data-effect="flip">in the end...</h1>            
         </div>
 
-        <div id="step-5" class="step" data-x="-100" data-y="-200" data-scale="1">
+        <div id="step-5" class="step" data-x="-100" data-y="-150" data-rotatez="180" data-self="1" data-scale="1">
             <h1 class="text text-transition-all text-size-48" data-index="0">ignore me</h1>
             <h1 class="text text-transition-all text-size-48" data-index="0">ignore me</h1>
-            <h1 class="text text-transition-all text-size-48" data-index="0">click me</h1>
+            <h1 class="text click text-transition-all text-size-48" data-index="0">click me</h1>
             <h1 class="text text-transition-all text-size-48" data-index="0">ignore me</h1>
             <h1 class="text text-transition-all text-size-48" data-index="0">ignore me</h1>            
         </div>        
 
-        <div id="step-6" class="step" data-x="100" data-y="-100" data-z="-6500" data-scale="1" data-rotatez="60" data-self="1">
+        <div id="step-6" class="step" data-x="100" data-y="-100" data-z="-6500" data-scale="1" data-rotatez="270" data-self="1">
             <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">I could be very tiny!</h1>
         </div>      
 
-        <div id="step-7" class="step" data-x="100" data-y="100" data-scale="1" data-theme="red">
-            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">You can defined your theme,like red</h1>
+        <div id="step-7" class="step" data-x="0" data-y="0" data-scale="1" data-theme="red">
+            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">You can defined your theme</h1>
+            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">like red</h1>
         </div>              
 
-        <div id="step-8" class="step" data-x="100" data-y="200" data-scale="1" data-theme="blue">
+        <div id="step-8" class="step" data-x="0" data-y="50" data-scale="1" data-theme="blue">
             <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0">or like blue</h1>
         </div>              
 
-        <div id="step-9" class="step prev" data-x="-100" data-y="-100" data-scale="1">
-            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0" data-rotatex="20" data-rotatey="20" data-scale="1">BTW,</h1>
-            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0" data-rotatex="20" data-rotatey="20" data-scale="1">Do you mention it is...</h1>
-            <h1 class="text text-transition-all text-size-48 text-family-merit2" data-index="0" data-rotatex="20" data-rotatey="20" data-scale="1">3D!</h1>
-        </div>              
+        <div id="step-9" class="step" data-x="-100" data-y="-100" data-scale="1">
+            <h1 class="text style-3 text-transition-all text-size-48 text-family-merit2" data-index="0" data-rotatex="-30" data-rotatey="-30" data-scale="1">BTW,</h1>
+            <h1 class="text style-3 text-transition-all text-size-48 text-family-merit2" data-index="0" data-rotatex="-30" data-rotatey="-30" data-scale="1">Do you mention it is...</h1>
+            <h1 class="text style-3 text-transition-all text-size-48 text-family-merit2" data-index="0" data-rotatex="-30" data-rotatey="-30" data-scale="1">3D!</h1>
+        </div>
+
+        <div id="step-10" class="step prev" data-x="100" data-y="-40" data-scale="1">
+            <h1 class="text text-transition-all text-size-36 text-family-merit2" data-index="0">Well,time to say goodbye</h1>
+            <h1 class="text text-transition-all text-size-36 text-family-merit2" data-index="0">Last tip:press ESC to do a overview:)</h1>            
+        </div>        
 
         <div id="overview" class="step cur" data-x="0" data-y="0" data-scale="1"></div>     
     </div>
